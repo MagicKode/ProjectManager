@@ -1,5 +1,5 @@
 # ProjectManager
-Technolodies:
+Technologies:
 - Spring boot
 - JPA
 - PostgresSQL
