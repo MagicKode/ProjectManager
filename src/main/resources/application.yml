@@ -1,0 +1,22 @@
+# Server configuration
+server:
+  port: 8080
+
+#Hibernate
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ProjectManager
+    username: postgres
+    password: root
+
+    #jpa properties
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    generate-ddl: true
+
+
