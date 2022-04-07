@@ -1,14 +1,23 @@
+/*
 package com.example.projectmanager.entity.role;
 
-public enum Role {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role implements GrantedAuthority {
     ROLE_ADMIN, // может:  УДАЛЯТЬ продавцов,
     // УДАЛЯТЬ (но НЕ СОЗДАВАТЬ товар продавцов),
     // БАНИТЬ продавцов,
     // ПРОСОМТРЕТЬ инфы.
 
     ROLE_RETAILER, // может: СОЗДАВАТЬ/УДАЛЯТЬ (свой) продукт,
-    // ОБНОВЛЯТЬ (свой) продукт (инфу, фото, цену),
     // ПРОСМОТРЕТЬ инфы.
 
-    ROLE_GUEST // может: ПРОСОМТРЕТЬ всю инфу о товаре и о продавце.
+    ROLE_GUEST // может: ПРОСМОТРЕТЬ всю инфу о товаре и о продавце.
+
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }
+*/

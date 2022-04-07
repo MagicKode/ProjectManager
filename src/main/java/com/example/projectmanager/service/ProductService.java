@@ -20,34 +20,33 @@ public class ProductService implements ProductInterface {
     @Override
     public void saveProduct(Product product) {
 
-        log.info("Saving new Product. Title: {}; Author login: {}", product.getTitle(), product.getRetailer());
+
+
+        log.info("Saving new Product. Title: {}; Author login: {}", product.getTitle(), product.getUser());
         productRepository.save(product); // обновляем репозиторий,(добавляем продукт уже С ФОТО)
     }
 
     @Override
-    public Product updateProduct(String title, int price, String description, Long stockLevel) {
-        return null;
-    }
-
-    @Override
     public Product getProductById(long id) {
+        log.info("Got product with id = {}", id);
         return productRepository.getProductById(id);
     }
 
     @Override
     public List<Product> getAllProducts() {
+        log.info("Got all products");
         return productRepository.findAll();
     }
 
     @Override
     public void deleteProductById(long id) {
-        //если нет такого id, то возвращаем НОЛЬ или сообщенеи, что ТАКОГО ПРОДУКТА НЕТ!
+        log.info("Deleted product with id = {}", id);
         productRepository.deleteById(id);
     }
 
     @Override
     public void deleteAllProducts() {
+        log.info("Deleted all products");
         productRepository.deleteAll();
-
     }
 }

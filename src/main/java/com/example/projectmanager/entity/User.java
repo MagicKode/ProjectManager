@@ -1,13 +1,15 @@
 package com.example.projectmanager.entity;
 
+import lombok.AllArgsConstructor;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "retailers")
-
-public class Retailer {
+@Table(name = "users")
+@AllArgsConstructor
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,35 +17,25 @@ public class Retailer {
     private Long id;
     @Column(name = "name")
     private String name;
-    @Column(name = "email")
-    private String email;
-    @Column(name = "phoneNumber")
-    private String phoneNumber;
     @Column(name = "login")
     private String login;
-    @Column(name = "password")
+    @Column(name = "password", length = 500)
     private String password;
     @Column(name = "active")
     private boolean active;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER) // возможность установки АВЫ
-    @JoinColumn(name = "image_id")
-    private Image avatar;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
     private List<Product> products = new ArrayList<>(); //список всех продуктов Юзера
 
-    public Retailer() {
+    public User() {
     }
 
-    public Retailer(String name, String email, String phoneNumber, String login, String password, boolean active, Image avatar, List<Product> products) {
+    public User(String name, String login, String password, boolean active, List<Product> products) {
         this.name = name;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
         this.login = login;
         this.password = password;
         this.active = active;
-        this.avatar = avatar;
         this.products = products;
     }
 
@@ -61,22 +53,6 @@ public class Retailer {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getLogin() {
@@ -101,14 +77,6 @@ public class Retailer {
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    public Image getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(Image avatar) {
-        this.avatar = avatar;
     }
 
     public List<Product> getProducts() {

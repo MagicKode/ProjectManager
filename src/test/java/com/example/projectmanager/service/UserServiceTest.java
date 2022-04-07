@@ -1,7 +1,7 @@
 package com.example.projectmanager.service;
 
-import com.example.projectmanager.entity.Retailer;
-import com.example.projectmanager.repository.RetailerRepository;
+import com.example.projectmanager.entity.User;
+import com.example.projectmanager.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,40 +16,38 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class RetailerServiceTest {
+class UserServiceTest {
 
     @Mock
-    RetailerRepository retailerRepository;
+    UserRepository userRepository;
 
     @InjectMocks
-    RetailerService retailerService;
+    UserService userService;
 
-    Retailer retailer;
+    User user;
 
     @BeforeEach
     void init(){
-        retailer = new Retailer();
-        retailer.setId(1L);
-        retailer.setActive(true);
-        retailer.setEmail("retailer@gmail.com");
-        retailer.setLogin("retailer");
-        retailer.setName("Retailer");
-        retailer.setPhoneNumber("123456");
+        user = new User();
+        user.setId(1L);
+        user.setActive(true);
+        user.setLogin("retailer");
+        user.setName("Retailer");
     }
 
     @Test
     void shouldCreateRetailer() {
         //given
-        when(retailerRepository.save(retailer)).thenReturn(null);
+        when(userRepository.save(user)).thenReturn(null);
 
         //when
-        boolean result = retailerService.createRetailer(this.retailer);
+        boolean result = userService.createUser(this.user);
 
         //then
-        assertNotNull(this.retailer);
+        assertNotNull(this.user);
         assertTrue(true);
 
-        verify(retailerRepository, Mockito.times(1)).save(retailer);
+        verify(userRepository, Mockito.times(1)).save(user);
     }
 
     @Test
@@ -60,13 +58,13 @@ class RetailerServiceTest {
     void shouldGetRetailerByName() {
         //given
         String name = "Retailer";
-        when(retailerRepository.findRetailerByName(name)).thenReturn(null);
+        when(userRepository.findUserByName(name)).thenReturn(null);
 
         //when
-        Retailer result = retailerService.getRetailerByName(retailer.getName());
+        User result = userService.getUserByName(user.getName());
 
         //then
-        assertThat(this.retailer.getName()).isEqualTo(name);
+        assertThat(this.user.getName()).isEqualTo(name);
         /*assertTrue(resul);*/
     }
 

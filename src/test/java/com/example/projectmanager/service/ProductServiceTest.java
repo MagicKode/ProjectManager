@@ -9,8 +9,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
@@ -19,7 +22,7 @@ class ProductServiceTest {
     ProductRepository productRepository;
 
     @InjectMocks
-    ProductService productService;
+    ProductService testObject;
 
     Product product;
 
@@ -29,39 +32,77 @@ class ProductServiceTest {
         product.setId(1L);
         product.setTitle("Auto");
         product.setDescription("fast");
-        product.setPrice(123.123);
     }
 
     @Test
     void shouldSaveProduct() {
         //given
-        when(productRepository.save(product)).thenReturn(null);
 
         //when
-        // result = productService.saveProduct(this.product);
+
 
         //then
 
-
-    }
-
-    @Test
-    void shouldUpdateProduct() {
     }
 
     @Test
     void shouldGetProductById() {
+        //given
+        Product product = new Product();
+        Long id = 1L;
+        product.setId(id);
+        when(productRepository.getProductById(id)).thenReturn(product);
+
+        //when
+        testObject.getProductById(product.getId());
+
+        //then
+        assertNotNull(product);
+        assertEquals(1L, product.getId());
+
+        verify(productRepository, times(1)).getProductById(product.getId());
     }
 
     @Test
     void shouldGetAllProducts() {
+        //Given
+        List<Product> products = new ArrayList<>();
+        when(productRepository.findAll()).thenReturn(products);
+
+        //when
+        testObject.getAllProducts();
+
+        //then
+        assertNotNull(products);
+
+        verify(productRepository, times(1)).findAll();
+
     }
 
     @Test
     void shouldDeleteProductById() {
+        //given
+        Product product = new Product();
+        Long id = 1L;
+        product.setId(id);
+
+        //when
+        testObject.deleteProductById(product.getId());
+
+        //then
+        verify(productRepository, times(1)).deleteById(product.getId());
+
     }
 
     @Test
     void shouldDeleteAllProducts() {
+        //given
+        List<Product> products = new ArrayList<>();
+
+        //when
+        testObject.deleteAllProducts();
+
+        //then
+        verify(productRepository, times(1)).deleteAll();
     }
 }

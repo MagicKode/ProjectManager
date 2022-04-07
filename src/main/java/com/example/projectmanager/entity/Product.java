@@ -1,12 +1,14 @@
 package com.example.projectmanager.entity;
 
+import lombok.AllArgsConstructor;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 
 @Entity
 @Table(name = "product")
-
+@AllArgsConstructor
 public class Product {
 
     @Id
@@ -17,31 +19,27 @@ public class Product {
     private String title;
     @Column(name = "StockLevel")
     private Long StockLevel; //quantity of products (how many are available)
-    @Column(name = "price")
-    private double price;
     @Column(name = "description")
     private String description;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn
-    private Retailer retailer;
+    private User user;
 
 
     public Product() {
     }
 
-    public Product(String title, Long stockLevel, double price, String description, Retailer retailer) {
+    public Product(String title, Long stockLevel, String description, User user) {
         this.title = title;
         StockLevel = stockLevel;
-        this.price = price;
         this.description = description;
-        this.retailer = retailer;
+        this.user = user;
     }
 
-    public Product(String title, Long stockLevel, double price, String description) {
+    public Product(String title, Long stockLevel, String description) {
         this.title = title;
         StockLevel = stockLevel;
-        this.price = price;
         this.description = description;
     }
 
@@ -69,14 +67,6 @@ public class Product {
         StockLevel = stockLevel;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -85,12 +75,12 @@ public class Product {
         this.description = description;
     }
 
-    public Retailer getRetailer() {
-        return retailer;
+    public User getUser() {
+        return user;
     }
 
-    public void setRetailer(Retailer retailer) {
-        this.retailer = retailer;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -98,12 +88,12 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Double.compare(product.price, price) == 0 && id.equals(product.id) && title.equals(product.title) && StockLevel.equals(product.StockLevel) && description.equals(product.description) && retailer.equals(product.retailer);
+        return id.equals(product.id) && title.equals(product.title) && StockLevel.equals(product.StockLevel) && description.equals(product.description) && user.equals(product.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, StockLevel, price, description, retailer);
+        return Objects.hash(id, title, StockLevel, description, user);
     }
 
     @Override
@@ -112,9 +102,8 @@ public class Product {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", StockLevel=" + StockLevel +
-                ", price=" + price +
                 ", description='" + description + '\'' +
-                ", retailer=" + retailer +
+                ", user=" + user +
                 '}';
     }
 }
