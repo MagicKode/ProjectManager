@@ -22,7 +22,7 @@ class UserServiceTest {
     UserRepository userRepository;
 
     @InjectMocks
-    UserService userService;
+    UserService testObject;
 
     User user;
 
@@ -41,7 +41,7 @@ class UserServiceTest {
         when(userRepository.save(user)).thenReturn(null);
 
         //when
-        boolean result = userService.createUser(this.user);
+        testObject.createUser(this.user);
 
         //then
         assertNotNull(this.user);
@@ -51,17 +51,13 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldGetAllRetailers() {
-    }
-
-    @Test
     void shouldGetRetailerByName() {
         //given
         String name = "Retailer";
         when(userRepository.findUserByName(name)).thenReturn(null);
 
         //when
-        User result = userService.getUserByName(user.getName());
+        User result = testObject.getUserByName(user.getName());
 
         //then
         assertThat(this.user.getName()).isEqualTo(name);

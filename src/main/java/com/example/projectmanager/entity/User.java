@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -30,6 +31,7 @@ public class User {
 
     public User() {
     }
+
 
     public User(String name, String login, String password, boolean active, List<Product> products) {
         this.name = name;
@@ -85,5 +87,30 @@ public class User {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return active == user.active && id.equals(user.id) && name.equals(user.name) && login.equals(user.login) && password.equals(user.password) && products.equals(user.products);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, login, password, active, products);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", active=" + active +
+                ", products=" + products +
+                '}';
     }
 }

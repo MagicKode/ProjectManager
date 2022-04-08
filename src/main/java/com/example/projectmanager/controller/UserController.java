@@ -22,18 +22,15 @@ public class UserController {
 
     @GetMapping("/registration")
     public String registration(){
-        return "/registrationpage";
+        return "/registrationPage";
     }
 
     @PostMapping("/registration")
     public String createRetailer(User user, Model model) {
         if (!userService.createUser(user)) {
             model.addAttribute("errorMessage", "Retailer with SUCH login: " + user.getLogin() + "exist! ");
-            return "registration";
+            return "registrationPage";
         }
         return "redirect:/loginForm";
     }
-
-
-
 }

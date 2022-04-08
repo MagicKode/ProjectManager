@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -27,12 +25,6 @@ public class UserService implements UserInterface {
         log.info("Saving new User with login: {}", login);
         userRepository.save(user);
         return true;
-
-    }
-
-    @Override
-    public List<User> getAllUsers() { // достайм всех продавцов
-        return userRepository.findAll();
     }
 
     @Override
