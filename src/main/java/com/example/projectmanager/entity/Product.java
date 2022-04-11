@@ -2,11 +2,14 @@ package com.example.projectmanager.entity;
 
 import com.example.projectmanager.entity.ProductDetails.ProductDescription;
 import com.example.projectmanager.entity.ProductDetails.ProductTitle;
+import lombok.AllArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
-
+@Entity
 @Table(name = "product")
+@AllArgsConstructor
 public class Product {
 
     private ProductTitle productTitle;
@@ -18,23 +21,25 @@ public class Product {
     @Column(name = "product_id")
     private Long id;
     @Column(name = "product_title")
+
     private String title = productTitle.createTitle();
     @Column(name = "product_description")
     private String description = productDescription.createDescription();
 
     @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn
-    private User user;
+    private List<User>users;
 
 
     public Product() {
     }
 
-    public Product(String title, String description, User user) {
+    public Product(String title, String description, List<User> users) {
         this.title = title;
         this.description = description;
-        this.user = user;
+        this.users = users;
     }
+
 
     public Long getId() {
         return id;
@@ -60,11 +65,11 @@ public class Product {
         this.description = description;
     }
 
-    public User getUser() {
-        return user;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

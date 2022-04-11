@@ -35,17 +35,19 @@ public class ProductService implements ProductInterface {
     }
 
     @Override
-    public Product addProductByUser(Product product) {
+    public Product addProductByUser(Product product) { //сохраняет продукт User
         User user = new User();
-        if (user.getName().equals("User")){
-        List<Product> products = new ArrayList<>(20);
-        products.add(product);
-        return productRepository.saveProduct(products);
+        if (user.getName().equals("User")) {
+            List<Product> products = new ArrayList<>(20);
+            products.add(product);
+            return productRepository.saveProduct(products);
+        }
+        return null;
     }
 
     @Override
-    public Product saveProductByRetailers(Product product) { //
-        //User user = new User();
+    public Product saveProductByRetailers(Product product) { //создание продукта Продавцами
+        User user = new User();
         if (user.getName().equals("Ret_A") || user.getLogin().equals("Rest_B")) {
             List<Product> products = new ArrayList<>();
             products.add(product);

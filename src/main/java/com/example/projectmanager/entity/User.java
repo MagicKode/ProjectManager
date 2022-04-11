@@ -3,7 +3,6 @@ package com.example.projectmanager.entity;
 import lombok.AllArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,18 +21,18 @@ public class User {
     @Column(name = "user_password", length = 500)
     private String password;
 
-    /*@ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn
-    private Product product;*/
+    private List<Product> products;
 
     public User() {
     }
 
-    public User(String name, String login, String password/*, List<Product> products*/) {
+    public User(String name, String login, String password, List<Product> products) {
         this.name = name;
         this.login = login;
         this.password = password;
-        //this.products = products;
+        this.products = products;
     }
 
     public Long getId() {
@@ -68,12 +67,12 @@ public class User {
         this.password = password;
     }
 
-//    public List<Product> getProducts() {
-//        return products;
-//    }
+    public List<Product> getProducts() {
+        return products;
+    }
 
-//    public void setProducts(List<Product> products) {
-//        this.products = products;
-//    }
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 
 }
