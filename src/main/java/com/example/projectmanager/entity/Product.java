@@ -1,28 +1,28 @@
 package com.example.projectmanager.entity;
 
-import lombok.AllArgsConstructor;
+import com.example.projectmanager.entity.ProductDetails.ProductDescription;
+import com.example.projectmanager.entity.ProductDetails.ProductTitle;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 
-@Entity
 @Table(name = "product")
-@AllArgsConstructor
 public class Product {
+
+    private ProductTitle productTitle;
+    private ProductDescription productDescription;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "product_id")
     private Long id;
-    @Column(name = "title")
-    private String title;
-    @Column(name = "StockLevel")
-    private Long StockLevel; //quantity of products (how many are available)
-    @Column(name = "description")
-    private String description;
+    @Column(name = "product_title")
+    private String title = productTitle.createTitle();
+    @Column(name = "product_description")
+    private String description = productDescription.createDescription();
 
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn
     private User user;
 
@@ -30,17 +30,10 @@ public class Product {
     public Product() {
     }
 
-    public Product(String title, Long stockLevel, String description, User user) {
+    public Product(String title, String description, User user) {
         this.title = title;
-        StockLevel = stockLevel;
         this.description = description;
         this.user = user;
-    }
-
-    public Product(String title, Long stockLevel, String description) {
-        this.title = title;
-        StockLevel = stockLevel;
-        this.description = description;
     }
 
     public Long getId() {
@@ -59,14 +52,6 @@ public class Product {
         this.title = title;
     }
 
-    public Long getStockLevel() {
-        return StockLevel;
-    }
-
-    public void setStockLevel(Long stockLevel) {
-        StockLevel = stockLevel;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -81,29 +66,5 @@ public class Product {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return id.equals(product.id) && title.equals(product.title) && StockLevel.equals(product.StockLevel) && description.equals(product.description) && user.equals(product.user);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, StockLevel, description, user);
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", StockLevel=" + StockLevel +
-                ", description='" + description + '\'' +
-                ", user=" + user +
-                '}';
     }
 }

@@ -6,7 +6,11 @@ import java.util.List;
 
 public interface ProductInterface {
 
-    void saveProduct(Product product);
+    Product generateProduct();
+
+    Product addProductByUser(Product product);
+
+    Product saveProductByRetailers(Product product) ;
 
     Product getProductById(long id);
 

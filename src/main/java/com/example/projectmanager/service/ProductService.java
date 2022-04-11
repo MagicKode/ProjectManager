@@ -1,13 +1,17 @@
 package com.example.projectmanager.service;
 
 import com.example.projectmanager.entity.Product;
+import com.example.projectmanager.entity.User;
 import com.example.projectmanager.repository.ProductRepository;
 import com.example.projectmanager.service.impl.ProductInterface;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Thread.sleep;
 
 @Service
 @Slf4j
@@ -16,14 +20,39 @@ public class ProductService implements ProductInterface {
 
     private final ProductRepository productRepository;
 
+    @Override
+    public Product generateProduct() { //автоматический генератор продукта, работает постоянно автономно
+        List<Product> products = new ArrayList<>();
+        try {
+            sleep(500_000);
+            products.add(new Product());
+            products.add(new Product());
+            products.add(new Product());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return productRepository.saveProduct(products);
+    }
 
     @Override
-    public void saveProduct(Product product) {
+    public Product addProductByUser(Product product) {
+        User user = new User();
+        if (user.getName().equals("User")){
+        List<Product> products = new ArrayList<>(20);
+        products.add(product);
+        return productRepository.saveProduct(products);
+    }
 
-
-
-        log.info("Saving new Product. Title: {}; Author login: {}", product.getTitle(), product.getUser());
-        productRepository.save(product); // обновляем репозиторий,(добавляем продукт уже С ФОТО)
+    @Override
+    public Product saveProductByRetailers(Product product) { //
+        //User user = new User();
+        if (user.getName().equals("Ret_A") || user.getLogin().equals("Rest_B")) {
+            List<Product> products = new ArrayList<>();
+            products.add(product);
+            return productRepository.saveProduct(products);
+        } else {
+            return null;
+        }
     }
 
     @Override

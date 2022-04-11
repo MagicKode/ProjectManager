@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -14,31 +13,27 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true)
+    @Column(name = "user_id", unique = true)
     private Long id;
-    @Column(name = "name")
+    @Column(name = "user_name")
     private String name;
-    @Column(name = "login")
+    @Column(name = "user_login")
     private String login;
-    @Column(name = "password", length = 500)
+    @Column(name = "user_password", length = 500)
     private String password;
-    @Column(name = "active")
-    private boolean active;
 
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
-    private List<Product> products = new ArrayList<>(); //список всех продуктов Юзера
+    /*@ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinColumn
+    private Product product;*/
 
     public User() {
     }
 
-
-    public User(String name, String login, String password, boolean active, List<Product> products) {
+    public User(String name, String login, String password/*, List<Product> products*/) {
         this.name = name;
         this.login = login;
         this.password = password;
-        this.active = active;
-        this.products = products;
+        //this.products = products;
     }
 
     public Long getId() {
@@ -73,44 +68,12 @@ public class User {
         this.password = password;
     }
 
-    public boolean isActive() {
-        return active;
-    }
+//    public List<Product> getProducts() {
+//        return products;
+//    }
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+//    public void setProducts(List<Product> products) {
+//        this.products = products;
+//    }
 
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return active == user.active && id.equals(user.id) && name.equals(user.name) && login.equals(user.login) && password.equals(user.password) && products.equals(user.products);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, login, password, active, products);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", active=" + active +
-                ", products=" + products +
-                '}';
-    }
 }

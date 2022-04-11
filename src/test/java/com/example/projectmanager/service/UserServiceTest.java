@@ -10,10 +10,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -36,7 +39,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldCreateRetailer() {
+    void shouldCreateUser() {
         //given
         when(userRepository.save(user)).thenReturn(null);
 
@@ -51,28 +54,66 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldGetRetailerByName() {
+    void shouldGetUserByName() {
         //given
+        User user = new User();
         String name = "Retailer";
+        user.setName(name);
         when(userRepository.findUserByName(name)).thenReturn(null);
 
         //when
-        User result = testObject.getUserByName(user.getName());
+        testObject.getUserByName(user.getName());
 
         //then
         assertThat(this.user.getName()).isEqualTo(name);
-        /*assertTrue(resul);*/
+        assertEquals("Retailer", user.getName());
     }
 
     @Test
-    void shouldGetRetailerById() {
+    void shouldGetUserById() {
+        //given
+        User user = new User();
+        Long id = 1L;
+        user.setId(id);
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+
+        //when
+        testObject.getUserById(user.getId());
+
+        //then
+        assertEquals(1L, id);
+
+        verify(userRepository, times(1)).findById(user.getId());
     }
 
     @Test
-    void shouldDeleteRetailerById() {
+    void shouldDeleteUserById() {
+        //given
+        User user = new User();
+        Long id = 1L;
+        user.setId(id);
+
+        //when
+        testObject.deleteUserById(user.getId());
+
+        //then
+        assertEquals(1L, id);
+
+        verify(userRepository, times(1)).deleteById(user.getId());
     }
 
     @Test
-    void shouldDeleteAllRetailers() {
+    void shouldDeleteAllUsers() {
+        //given
+        List<User> users = new ArrayList<>();
+        users.add(user);
+
+        //when
+        testObject.deleteAllUsers();
+
+        //then
+        assertEquals(1, users.size());
+
+        verify(userRepository, times(1)).deleteAll();
     }
 }

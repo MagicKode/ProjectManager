@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -34,14 +35,33 @@ class ProductServiceTest {
         product.setDescription("fast");
     }
 
-    @Test
+    @Test //???
     void shouldSaveProduct() {
-        //given
+       /* //given
+        Product product1 = new Product();
+        product1.setTitle("title_1");
+        product1.setTitle("title_2");
+        product1.setDescription("description_1");
+        product1.setDescription("description_2");
+        product1.setStockLevel(1L);
+        product1.setStockLevel(2L);
+
+        List<Product> products= new ArrayList<>();
+        try {
+            sleep(5000);
+            products.add(product1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(products);
 
         //when
-
+        testObject.saveProduct(products);
 
         //then
+        assertNotNull(products);
+*/
+
 
     }
 
@@ -67,6 +87,7 @@ class ProductServiceTest {
     void shouldGetAllProducts() {
         //Given
         List<Product> products = new ArrayList<>();
+        products.add(product);
         when(productRepository.findAll()).thenReturn(products);
 
         //when
@@ -98,11 +119,14 @@ class ProductServiceTest {
     void shouldDeleteAllProducts() {
         //given
         List<Product> products = new ArrayList<>();
+        products.add(product);
 
         //when
         testObject.deleteAllProducts();
 
         //then
+        assertEquals(1, products.size());
+
         verify(productRepository, times(1)).deleteAll();
     }
 }

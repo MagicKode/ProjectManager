@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -16,41 +17,35 @@ public class UserService implements UserInterface {
     private final UserRepository userRepository;
 
     @Override
-    public boolean createUser(User user) {
-        String login = user.getLogin();
-        if (userRepository.findUserByName(user.getName()) != null)
-            return false;
-        user.setActive(true);
-        //retailer.getRoles().add(Role.ROLE_RETAILER);
-        log.info("Saving new User with login: {}", login);
-        userRepository.save(user);
+    public boolean createUser(User user) {  //ограниченная количеством юзеров регистрация
+        User[] users = new User[3];
+        for (int i = 0; i <= users.length; i++) {
+            userRepository.save(user);
+        }
         return true;
     }
 
     @Override
-    public User getUserByName(String name) { // достаём продавца по имени
-        User user = new User();
-        if (user.getName().equals(name)) {
-            return userRepository.findUserByName(name);
-        }else {
-            return null;
-        }
+    public User getUserByName(String name) {
+        log.info("found user with name = {}", name);
+       return userRepository.findUserByName(name);
     }
 
     @Override
-    public User getUserById(Long id) {  // достаём продавца по id
-        return userRepository.findById(id).orElse(null); // если нет ни одного, тогда null
+    public User getUserById(Long id) {
+        log.info("found user with id = {}", id);
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
-    public void deleteUserById(Long id) { //удаляем продавца по id
+    public void deleteUserById(Long id) {
+        log.info("deleted user with id = {}", id);
         userRepository.deleteById(id);
     }
 
     @Override
-    public void deleteAllUsers() { //удаляем всех
+    public void deleteAllUsers() {
+        log.info("all users deleted");
         userRepository.deleteAll();
     }
-
-
 }
