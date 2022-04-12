@@ -35,33 +35,18 @@ class ProductServiceTest {
         product.setDescription("fast");
     }
 
-    @Test //???
-    void shouldSaveProduct() {
-       /* //given
-        Product product1 = new Product();
-        product1.setTitle("title_1");
-        product1.setTitle("title_2");
-        product1.setDescription("description_1");
-        product1.setDescription("description_2");
-        product1.setStockLevel(1L);
-        product1.setStockLevel(2L);
+    @Test
+    void shouldGenerateProduct(){
 
-        List<Product> products= new ArrayList<>();
-        try {
-            sleep(5000);
-            products.add(product1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println(products);
+    }
 
-        //when
-        testObject.saveProduct(products);
+    @Test
+    void addProductByUser(Product product){
 
-        //then
-        assertNotNull(products);
-*/
+    }
 
+    @Test
+    void saveProductByRetailers(Product product) {
 
     }
 

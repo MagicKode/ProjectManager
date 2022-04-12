@@ -21,13 +21,13 @@ public class ProductService implements ProductInterface {
     private final ProductRepository productRepository;
 
     @Override
-    public Product generateProduct() { //автоматический генератор продукта, работает постоянно автономно
+    public Product generateProduct() { //автоматический генератор продукта, работает автономно
         List<Product> products = new ArrayList<>();
         try {
-            sleep(500_000);
-            products.add(new Product());
-            products.add(new Product());
-            products.add(new Product());
+                sleep(500_000);
+                products.add(new Product());
+                products.add(new Product());
+                products.add(new Product());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -80,4 +80,6 @@ public class ProductService implements ProductInterface {
         log.info("Deleted all products");
         productRepository.deleteAll();
     }
+
+
 }
