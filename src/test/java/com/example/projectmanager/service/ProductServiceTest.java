@@ -35,10 +35,19 @@ class ProductServiceTest {
         product.setDescription("fast");
     }
 
-    @Test
+   /* @Test
     void shouldGenerateProduct(){
+        //given
+        List<Product> products = new ArrayList<>();
 
-    }
+        //when
+        testObject.generateProduct(product);
+
+        //then
+        assertNotNull(products);
+
+        verify(productRepository, times(1)).saveProduct(products);
+    }*/
 
     @Test
     void addProductByUser(Product product){
