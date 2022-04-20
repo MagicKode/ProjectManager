@@ -14,8 +14,6 @@ spring:
     schemas: projectManager
     baseline-on-migrate: true
 
-
-
   #jpa properties
   jpa:
     show-sql: true

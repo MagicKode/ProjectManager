@@ -1,4 +1,4 @@
-package com.example.projectmanager.service.impl;
+package com.example.projectmanager.service;
 
 import com.example.projectmanager.entity.Product;
 
@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ProductInterface {
 
-    Product addProductByUser(Product product);
+    List<Product> addProductByUser(Product product);
 
     Product saveProductByRetailers(Product product);
 

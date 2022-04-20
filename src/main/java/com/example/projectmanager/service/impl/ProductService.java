@@ -1,8 +1,9 @@
-package com.example.projectmanager.service;
+package com.example.projectmanager.service.impl;
 
 import com.example.projectmanager.entity.Product;
+import com.example.projectmanager.factory.impl.RandomProductFactoryImpl;
 import com.example.projectmanager.repository.ProductRepository;
-import com.example.projectmanager.service.impl.ProductInterface;
+import com.example.projectmanager.service.ProductInterface;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,29 +18,32 @@ import java.util.List;
 public class ProductService implements ProductInterface {
 
     private final ProductRepository productRepository;
+    private RandomProductFactoryImpl productServiceFactory;
 
 
     @Override
-    public Product addProductByUser(Product product) { //сохраняет продукт User
+    public List<Product> addProductByUser(Product product) {
         List<Product> products = new ArrayList<>(20);
+        productServiceFactory.generateRandomProduct(product);
         products.add(product);
         log.info("User added product = {}", product);
-        return productRepository.saveProduct(products);
-
+        productRepository.save(product);
+        return products;
     }
 
     @Override
-    public Product saveProductByRetailers(Product product) { //создание продукта Продавцами
-        List<Product> products = new ArrayList<>();
-        products.add(product);
+    public Product saveProductByRetailers(Product product) {
+
         log.info("Saved product = {}", product);
-        return productRepository.saveProduct(products);
+        return productRepository.save(product);
     }
+
+
 
     @Override
     public Product getProductById(long id) {
         log.info("Got product with id = {}", id);
-        return productRepository.getProductById(id);
+        return productRepository.getById(id);
     }
 
     @Override

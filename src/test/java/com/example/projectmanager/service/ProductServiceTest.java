@@ -2,6 +2,7 @@ package com.example.projectmanager.service;
 
 import com.example.projectmanager.entity.Product;
 import com.example.projectmanager.repository.ProductRepository;
+import com.example.projectmanager.service.impl.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -65,7 +66,7 @@ class ProductServiceTest {
         Product product = new Product();
         Long id = 1L;
         product.setId(id);
-        when(productRepository.getProductById(id)).thenReturn(product);
+        when(productRepository.getById(id)).thenReturn(product);
 
         //when
         testObject.getProductById(product.getId());
@@ -74,7 +75,7 @@ class ProductServiceTest {
         assertNotNull(product);
         assertEquals(1L, product.getId());
 
-        verify(productRepository, times(1)).getProductById(product.getId());
+        verify(productRepository, times(1)).getById(product.getId());
     }
 
     @Test

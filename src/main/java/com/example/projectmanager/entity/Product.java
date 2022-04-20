@@ -1,15 +1,12 @@
 package com.example.projectmanager.entity;
 
-import com.example.projectmanager.entity.role.Retailer;
-
 import javax.persistence.*;
 import java.util.List;
-import java.util.Random;
+import java.util.Objects;
 
 @Entity
 @Table(name = "product")
 public class Product {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -77,4 +74,27 @@ public class Product {
         this.retailers = retailers;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id.equals(product.id) && title.equals(product.title) && description.equals(product.description) && stockLevel.equals(product.stockLevel) && retailers.equals(product.retailers);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, stockLevel, retailers);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", stockLevel='" + stockLevel + '\'' +
+                ", retailers=" + retailers +
+                '}';
+    }
 }
