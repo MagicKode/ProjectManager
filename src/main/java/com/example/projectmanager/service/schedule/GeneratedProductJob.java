@@ -4,12 +4,16 @@ import com.example.projectmanager.entity.Product;
 import com.example.projectmanager.factory.impl.RandomProductFactoryImpl;
 import com.example.projectmanager.repository.ProductRepository;
 import lombok.AllArgsConstructor;
+import org.aspectj.weaver.patterns.PerObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.w3c.dom.ls.LSProgressEvent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -18,25 +22,24 @@ import java.util.List;
 public class GeneratedProductJob {
 
     private ProductRepository productRepository;
-    private RandomProductFactoryImpl randomProductFactory;
     private static final Logger log = LoggerFactory.getLogger(GeneratedProductJob.class);
+    private final RandomProductFactoryImpl randomProductFactory;
 
     @Scheduled(fixedRate = 3_000)
-    public void createRandomProductsEveryFiveMinutes() {
-        Product product = new Product();
-        Product[] products = new Product[3];
+    @Transactional
+    public void productScheduler() {
+        Product product = createProduct();
 
-        products[0] =  randomProductFactory.generateRandomProduct(product);
-        log.info("Created product1 = {}", products[0]);
-        productRepository.save(products[0]);
+       /* List<Product> products = Arrays.asList(
 
-        products[1] = randomProductFactory.generateRandomProduct(product);
-        log.info("Created product2 = {}", products[1]);
-        productRepository.save(products[1]);
+                productRepository.save(createProduct()),
+                productRepository.save(createProduct()),
+                productRepository.save(createProduct())
+        );
+        log.info("Created product = {}", products);*/
+    }
 
-        products[2] = randomProductFactory.generateRandomProduct(product);
-        log.info("Created product3 = {}", products[2]);
-        productRepository.save(products[2]);
-
+    private Product createProduct() {
+        return randomProductFactory.createRandomProduct();
     }
 }

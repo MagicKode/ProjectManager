@@ -6,18 +6,8 @@ import java.util.List;
 
 public interface ProductInterface {
 
-    List<Product> addProductByUser(Product product);
+    List<Product> createSomeRandomProducts(Product product);
 
-    Product saveProductByRetailers(Product product);
-
-    Product getProductById(long id);
-
-    List<Product> getAllProducts();
-
-    void deleteProductById(long id);
-
-    void deleteAllProducts();
-
-
+    void createRandomProductsEveryFiveMinutes();
 
 }

@@ -16,36 +16,22 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping(path = "/add20")
+    @GetMapping(path = "/add20")
     public List<Product> addProductByUser(Product product){
-        return productService.addProductByUser(product);
+        return productService.createSomeRandomProducts(product);
     }
 
-    @PostMapping(path = "/{name}")
+
+    /*@PostMapping(path = "/{name}")
     public Product saveProductByRetailer(@PathVariable String name, Product product){
         return productService.saveProductByRetailers(product);
     }
-
 
     @PostMapping (path = "/get/{id}")
     public Product getProductById(@PathVariable Long id){
         return productService.getProductById(id);
     }
-
-    @GetMapping(path = "/get/all")
-    public List<Product> getAllProducts(){
-        return productService.getAllProducts();
-    }
-
-    @PostMapping(path = "/delete/{id}")
-    public void deletePRoductById(@PathVariable Long id){
-        productService.deleteProductById(id);
-    }
-
-    @GetMapping(path = "/delete/all")
-    public void deleteAllProducts(){
-        productService.deleteAllProducts();
-    }
+*/
 
 
 

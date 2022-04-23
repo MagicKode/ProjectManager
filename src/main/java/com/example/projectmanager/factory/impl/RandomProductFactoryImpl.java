@@ -2,10 +2,6 @@ package com.example.projectmanager.factory.impl;
 
 import com.example.projectmanager.entity.Product;
 import com.example.projectmanager.factory.RandomProductFactory;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -14,26 +10,21 @@ import java.util.Random;
 public class RandomProductFactoryImpl implements RandomProductFactory {
 
     @Override
-    public Product generateRandomProduct(Product product) {
+    public Product createRandomProduct() {
+        return generateProductParameters();
+    }
+
+    private Product generateProductParameters() {
+        Product product = new Product();
         Random randomCreation = new Random();
-        char letter = (char) (randomCreation.nextInt(26) + 'a');
-        int number = randomCreation.nextInt(100);
-        product.setTitle("Title: " + "Product_" + letter);
-        product.setStockLevel("StockLevel: " + number);
-        product.setDescription("Description: " + letter + number);
+        char letter1 = (char) (randomCreation.nextInt(26) + 'a');
+        char letter2 = (char) (randomCreation.nextInt(26) + 'a');
+        char letter3 = (char) (randomCreation.nextInt(26) + 'a');
+        int number1 = randomCreation.nextInt(1000);
+        int number2 = randomCreation.nextInt(1000);
+        product.setTitle("Title: " + "Product_" + letter1 + letter2);
+        product.setDescription("Description: " + letter3 + number1);
+        product.setStockLevel("StockLevel: " + number2);
         return product;
     }
-
-
-  /*  private String generateProductParameters() {
-        Random randomCreation = new Random();
-        char letter = (char) (randomCreation.nextInt(26) + 'a');
-        int number = randomCreation.nextInt(100);
-        title = "Product_" + letter;
-        stockLevel = "StockLevel: " + number;
-        description = "Description: " + letter + number;
-        return;
-    }
-*/
-
 }

@@ -14,6 +14,6 @@ public class SchedulerController {
 
     @GetMapping()
     public void generateProductByScheduler(){
-        generatedProductJob.createRandomProductsEveryFiveMinutes();
+        generatedProductJob.productScheduler();
     }
 }

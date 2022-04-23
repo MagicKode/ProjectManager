@@ -9,10 +9,12 @@ spring:
     username: postgres
     password: root
 
-    # V(version)__description.sql
+
+  # V(version)__description.sql
   flyway:
     schemas: projectManager
     baseline-on-migrate: true
+
 
   #jpa properties
   jpa:

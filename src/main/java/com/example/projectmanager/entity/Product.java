@@ -1,6 +1,10 @@
 package com.example.projectmanager.entity;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
 import javax.persistence.*;
+import javax.security.auth.login.Configuration;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,15 +27,7 @@ public class Product {
     @JoinColumn
     private List<Retailer>retailers;
 
-
     public Product() {
-    }
-
-    public Product(String title, String description, List<Retailer> retailers, String stockLevel) {
-        this.title = title;
-        this.description = description;
-        this.retailers = retailers;
-        this.stockLevel = stockLevel;
     }
 
     public Long getId() {
