@@ -21,10 +21,9 @@ public class RandomProductFactoryImpl implements RandomProductFactory {
         char letter2 = (char) (randomCreation.nextInt(26) + 'a');
         char letter3 = (char) (randomCreation.nextInt(26) + 'a');
         int number1 = randomCreation.nextInt(1000);
-        int number2 = randomCreation.nextInt(1000);
-        product.setTitle("Title: " + "Product_" + letter1 + letter2);
-        product.setDescription("Description: " + letter3 + number1);
-        product.setStockLevel("StockLevel: " + number2);
+        product.setProduct_title("Title: " + "Product_" + letter1 + letter2);
+        product.setProduct_description("Description: " + letter3 + number1);
+        product.setProduct_stockLevel(1L);
         return product;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.projectmanager.service.impl;
 
 import com.example.projectmanager.entity.Product;
+import com.example.projectmanager.entity.role.RetName;
 import com.example.projectmanager.factory.impl.RandomProductFactoryImpl;
 import com.example.projectmanager.repository.ProductRepository;
 import com.example.projectmanager.service.ProductInterface;
@@ -10,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -24,53 +22,41 @@ public class ProductService implements ProductInterface {
 
     private final ProductRepository productRepository;
     private RandomProductFactoryImpl productServiceFactory;
-    private EntityManager entityManager;
     private final GeneratedProductJob productJob;
 
-    @Transactional
-    public Product createProduct(){
-        Product product = new Product();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-        entityTransaction.begin();
-        productServiceFactory.createRandomProduct();
-        entityManager.persist(product);
-        log.info("Created product = {}", product);
-        entityManager.flush();
-        entityTransaction.commit();
-        return productRepository.save(product);
-    }
-
 
     @Override
     @Transactional
-    public List<Product> createSomeRandomProducts(Product product) {
-        List<Product> products = new ArrayList<>(20);
-        EntityTransaction transaction = entityManager.getTransaction(); //убрать
-        try {
-            transaction.begin();
+    public List<Product> createRandomProducts() {
+        /*List<Product> products =
+                Stream.of()
+                .limit(20)
+                .forEach(product -> productServiceFactory.createRandomProduct())
+                .collect(Collectors.toList());*/
+
+        List<Product> products = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
             products.add(productServiceFactory.createRandomProduct());
-            entityManager.persist(products);
-            log.info("User added products = {}", products);
-            entityManager.flush();
-            transaction.commit();
-        } catch (Exception e) {
-            transaction.rollback();
-            throw new RuntimeException(e); //добавить message
         }
-        productRepository.saveAll(products);
-        return products;
+        log.info("created products = {}", products);
+        return productRepository.saveAll(products);
     }
 
     @Override
     @Transactional
-    public void createRandomProductsEveryFiveMinutes() {
-        Product product = ;
+    public void insertRandomProductEveryFiveMinutes() {
+        productJob.productScheduler();
+    }
 
-        List<Product> products= Arrays.asList(
-                productRepository.save(productJob.productScheduler()),
-                productRepository.save(product),
-                productRepository.save(product)
-        );
-        log.info("Created product = {}", products);
+    @Override
+    @Transactional
+    public void generateProductByRetailer(String name) {
+        String name1 = String.valueOf(RetName.RET_A);
+        String name2 = String.valueOf(RetName.RET_B);
+        if (name.equals(name1)) {
+
+        } else if (name.equals(name2)) {
+
+        }
     }
 }

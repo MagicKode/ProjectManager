@@ -6,8 +6,9 @@ import java.util.List;
 
 public interface ProductInterface {
 
-    List<Product> createSomeRandomProducts(Product product);
+    List<Product> createRandomProducts();
 
-    void createRandomProductsEveryFiveMinutes();
+    void insertRandomProductEveryFiveMinutes();
 
+    void generateProductByRetailer(String name);
 }

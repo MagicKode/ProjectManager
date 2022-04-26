@@ -1,38 +1,49 @@
 package com.example.projectmanager.controller;
 
 import com.example.projectmanager.entity.Product;
+import com.example.projectmanager.entity.Retailer;
+import com.example.projectmanager.repository.ProductRepository;
+import com.example.projectmanager.repository.RetailerRepository;
 import com.example.projectmanager.service.impl.ProductService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequestMapping("/product")
 @RestController
 @AllArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
+    private ProductRepository productRepository;
+    private RetailerRepository retailerRepository;
 
-    @GetMapping(path = "/add20")
-    public List<Product> addProductByUser(Product product){
-        return productService.createSomeRandomProducts(product);
+    @PostMapping(path = "add/20")
+    public List<Product> insertTwentyRandomProducts() {
+        return productService.createRandomProducts();
     }
 
+    @PutMapping("/{product_id}/retailer/{retailer-id}")
+    public Product enrollRetailerToProduct(
+            @PathVariable Long product_id,
+            @PathVariable Long retailer_id){
+        Product product = productRepository.getById(product_id);
+        Retailer retailer = retailerRepository.getById(retailer_id);
+        product.enrollRetailer(retailer);
+        return productRepository.save(product);
+    }
 
     /*@PostMapping(path = "/{name}")
-    public Product saveProductByRetailer(@PathVariable String name, Product product){
-        return productService.saveProductByRetailers(product);
+    public void generateProductByRetailer(@PathVariable String name) {
+        productService.generateProductByRetailer(name);
     }
-
-    @PostMapping (path = "/get/{id}")
+*/
+     /*@PostMapping (path = "/get/{id}")
     public Product getProductById(@PathVariable Long id){
         return productService.getProductById(id);
     }
 */
-
 
 
 }

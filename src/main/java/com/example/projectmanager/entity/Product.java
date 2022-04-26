@@ -1,12 +1,9 @@
 package com.example.projectmanager.entity;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
 import javax.persistence.*;
-import javax.security.auth.login.Configuration;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "product")
@@ -15,59 +12,57 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private Long id;
+    private Long product_id;
     @Column(name = "product_title")
-    private String title;
+    private String product_title;
     @Column(name = "product_description")
-    private String description;
+    private String product_description;
     @Column(name = "product_stockLevel")
-    private String stockLevel;
+    private Long product_stockLevel;
 
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-    @JoinColumn
-    private List<Retailer>retailers;
+    /*@ManyToMany(mappedBy = "products")
+    @JoinTable(name = "")*/
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "product_retailer",
+            joinColumns = {@JoinColumn(name = "product_id")},
+            inverseJoinColumns = {@JoinColumn(name = "retailer_id")}
+    )
+    private Set<Retailer> enrollRetailers = new HashSet<>();
 
-    public Product() {
+    public Product() {}
+
+    public Long getProduct_id() {
+        return product_id;
     }
 
-    public Long getId() {
-        return id;
+    public void setProduct_id(Long product_id) {
+        this.product_id = product_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getProduct_title() {
+        return product_title;
     }
 
-    public String getTitle() {
-        return title;
+    public void setProduct_title(String product_title) {
+        this.product_title = product_title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getProduct_description() {
+        return product_description;
     }
 
-    public String getDescription() {
-       return description;
+    public void setProduct_description(String product_description) {
+        this.product_description = product_description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public Long getProduct_stockLevel() {
+        return product_stockLevel;
     }
 
-    public String getStockLevel() {
-        return stockLevel;
-    }
+    public void setProduct_stockLevel(Long product_stockLevel) {
 
-    public void setStockLevel(String stockLevel) {
-        this.stockLevel = stockLevel;
-    }
-
-    public List<Retailer> getRetailers() {
-        return retailers;
-    }
-
-    public void setRetailers(List<Retailer> retailers) {
-        this.retailers = retailers;
+        this.product_stockLevel = product_stockLevel;
     }
 
     @Override
@@ -75,22 +70,25 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return id.equals(product.id) && title.equals(product.title) && description.equals(product.description) && stockLevel.equals(product.stockLevel) && retailers.equals(product.retailers);
+        return product_id.equals(product.product_id) && product_title.equals(product.product_title) && product_description.equals(product.product_description) && product_stockLevel.equals(product.product_stockLevel);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, stockLevel, retailers);
+        return Objects.hash(product_id, product_title, product_description, product_stockLevel);
     }
 
     @Override
     public String toString() {
         return "Product{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", stockLevel='" + stockLevel + '\'' +
-                ", retailers=" + retailers +
+                "product_id=" + product_id +
+                ", product_title='" + product_title + '\'' +
+                ", product_description='" + product_description + '\'' +
+                ", product_stockLevel=" + product_stockLevel +
                 '}';
+    }
+
+    public void enrollRetailer(Retailer retailer) {
+        enrollRetailers.add(retailer);
     }
 }

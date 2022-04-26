@@ -23,11 +23,11 @@ public class RetailerService implements RetailerInterface {
 
     @Override
     public Retailer createRetailer(Retailer retailer) {
-        if (retailerRepository.findRetailerByName(retailer.getName()) != null) {
-            log.info("Such user is already EXIST !!");
+        if (retailerRepository.findRetailerByName(retailer.getRetailer_name()) != null) {
+            log.info("Such retailer is already EXIST !!");
         } else {
             retailers.add(retailer);
-            log.info("Created user with name = {}", retailer.getName());
+            log.info("Created retailer with name = {}", retailer.getRetailer_name());
         }
         return retailer;
     }

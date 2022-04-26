@@ -1,6 +1,8 @@
 package com.example.projectmanager.entity.role;
 
 
+import org.springframework.data.jpa.domain.Specification;
+
 public enum RetName /*implements Specification*/ {
 
     RET_A,
