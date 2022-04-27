@@ -19,19 +19,9 @@ public class ProductController {
     private ProductRepository productRepository;
     private RetailerRepository retailerRepository;
 
-    @PostMapping(path = "add/20")
+    @GetMapping(path = "add/20")
     public List<Product> insertTwentyRandomProducts() {
-        return productService.createRandomProducts();
-    }
-
-    @PutMapping("/{product_id}/retailer/{retailer-id}")
-    public Product enrollRetailerToProduct(
-            @PathVariable Long product_id,
-            @PathVariable Long retailer_id){
-        Product product = productRepository.getById(product_id);
-        Retailer retailer = retailerRepository.getById(retailer_id);
-        product.enrollRetailer(retailer);
-        return productRepository.save(product);
+        return productService.insertRandomProducts();
     }
 
     /*@PostMapping(path = "/{name}")

@@ -1,8 +1,9 @@
 package com.example.projectmanager.service;
 
 import com.example.projectmanager.entity.Retailer;
+import com.example.projectmanager.entity.role.RetName;
 
 public interface RetailerInterface {
 
-    Retailer createRetailer(Retailer retailer);
+    Retailer getRetailer(RetName retName);
 }

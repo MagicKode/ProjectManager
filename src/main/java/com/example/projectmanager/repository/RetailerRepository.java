@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RetailerRepository extends JpaRepository<Retailer, Long> {
-    Retailer findRetailerByName(String name);
+    Retailer findByName(String name);
 }

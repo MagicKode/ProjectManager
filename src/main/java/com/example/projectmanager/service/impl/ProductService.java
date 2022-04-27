@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Service
@@ -27,12 +29,14 @@ public class ProductService implements ProductInterface {
 
     @Override
     @Transactional
-    public List<Product> createRandomProducts() {
-        /*List<Product> products =
+    public List<Product> insertRandomProducts() {
+
+       /* List<Product> products =
                 Stream.of()
                 .limit(20)
-                .forEach(product -> productServiceFactory.createRandomProduct())
-                .collect(Collectors.toList());*/
+                .filter(product -> productServiceFactory.createRandomProduct())
+                .collect(Collectors.toList());
+        return productRepository.saveAll(products);*/
 
         List<Product> products = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
@@ -48,7 +52,7 @@ public class ProductService implements ProductInterface {
         productJob.productScheduler();
     }
 
-    @Override
+   /* @Override
     @Transactional
     public void generateProductByRetailer(String name) {
         String name1 = String.valueOf(RetName.RET_A);
@@ -58,5 +62,5 @@ public class ProductService implements ProductInterface {
         } else if (name.equals(name2)) {
 
         }
-    }
+    }*/
 }
