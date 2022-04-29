@@ -1,11 +1,14 @@
 package com.example.projectmanager.entity;
 
+import lombok.AllArgsConstructor;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "product")
+@AllArgsConstructor
 public class Product {
 
     @Id
@@ -16,16 +19,10 @@ public class Product {
     private String title;
     @Column(name = "description")
     private String description;
-    @Column(name = "stockLevel")
+    @Column(name = "stock_level")
     private Long stockLevel;
 
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "product_retailer",
-            joinColumns = {@JoinColumn(name = "product_id")},
-            inverseJoinColumns = {@JoinColumn(name = "retailer_id")}
-    )
-
+    @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
     private Set<Retailer> retailers = new HashSet<>();
 
     public Product() {}
@@ -68,9 +65,5 @@ public class Product {
 
     public void setRetailers(Set<Retailer> retailers) {
         this.retailers = retailers;
-    }
-
-    public void retailer(Retailer retailer) {
-        retailers.add(retailer);
     }
 }

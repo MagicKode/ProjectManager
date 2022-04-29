@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -19,10 +18,15 @@ public class Retailer {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "retailers")
-    private Set<Product> products = new HashSet<>();
-
     public Retailer() {}
+
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "retailer_product",
+            joinColumns = {@JoinColumn(name = "id_retailer")},
+            inverseJoinColumns = {@JoinColumn(name = "id_product")}
+    )
+    private Set<Product> products = new HashSet<>();
 
     public Long getId() {
         return id;
