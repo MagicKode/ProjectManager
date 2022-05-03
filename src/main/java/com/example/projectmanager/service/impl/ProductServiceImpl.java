@@ -1,6 +1,7 @@
 package com.example.projectmanager.service.impl;
 
 import com.example.projectmanager.entity.Product;
+import com.example.projectmanager.entity.retName.RetailerName;
 import com.example.projectmanager.factory.RandomProductFactory;
 import com.example.projectmanager.repository.ProductRepository;
 import com.example.projectmanager.service.ProductService;
@@ -23,9 +24,6 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final RandomProductFactory randomProductFactory;
 
-    private static final String SQL_UPDATE_PARAMETER =
-            "increment stockLevel set stock_level = :stockLevel";
-
     @Override
     @Transactional
     public void insertRandomProducts(Integer quantity) {
@@ -38,27 +36,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void insertRandomProductEveryFiveMinutes() {
-        List<Product> products = Arrays.asList(
-                productRepository.save(randomProductFactory.createRandomProduct()),
-                productRepository.save(randomProductFactory.createRandomProduct()),
-                productRepository.save(randomProductFactory.createRandomProduct())
-        );
-        log.info("Created product = {}", products);
+    public void incrementStockLevel(String name) {
+        if (RetailerName.RET_A.name().equals(name)) {
+            productRepository.incrementStockLevel(5);
+        } else if (RetailerName.RET_B.name().equals(name)) {
+            productRepository.incrementStockLevel(8);
+        }
     }
-
-    @Override
-    @Transactional
-    public void incrementStockLevelByRetailer(String name) {
-
-
-    }
-
-    @Override
-    public void updateParameter(Long stockLevel, Long id) {
-
-
-    }
-
-
 }

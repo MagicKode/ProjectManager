@@ -1,8 +1,11 @@
 package com.example.projectmanager.controller;
 
+import com.example.projectmanager.entity.Product;
 import com.example.projectmanager.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/products")
 @RestController
@@ -16,8 +19,8 @@ public class ProductController {
         productService.insertRandomProducts(Integer.valueOf(quantity));
     }
 
-    @PutMapping(path = "/{name}")
+    @GetMapping(path = "/{name}")
     public void incrementStockLevelByRetailer(@PathVariable String name) {
-        productService.incrementStockLevelByRetailer(name);
+        productService.incrementStockLevel(name);
     }
 }

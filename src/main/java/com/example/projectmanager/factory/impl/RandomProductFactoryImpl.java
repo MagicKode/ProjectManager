@@ -4,8 +4,6 @@ import com.example.projectmanager.entity.Product;
 import com.example.projectmanager.entity.retName.RetailerName;
 import com.example.projectmanager.factory.RandomProductFactory;
 import com.example.projectmanager.repository.RetailerRepository;
-import com.example.projectmanager.service.ProductService;
-import com.example.projectmanager.service.RetailerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
