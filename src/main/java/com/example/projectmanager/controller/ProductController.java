@@ -1,11 +1,9 @@
 package com.example.projectmanager.controller;
 
-import com.example.projectmanager.entity.Product;
 import com.example.projectmanager.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RequestMapping("/products")
 @RestController
