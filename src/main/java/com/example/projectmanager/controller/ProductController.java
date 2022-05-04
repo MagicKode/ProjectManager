@@ -19,8 +19,8 @@ public class ProductController {
         productService.insertRandomProducts(Integer.valueOf(quantity));
     }
 
-    @PutMapping(path = "/")
-    public void incrementStockLevelByRetailer(@RequestParam String name) {
+    @GetMapping(path = "/{name}")
+    public void incrementStockLevelByRetailer(@PathVariable String name) {
         productService.incrementStockLevel(name);
     }
 }
