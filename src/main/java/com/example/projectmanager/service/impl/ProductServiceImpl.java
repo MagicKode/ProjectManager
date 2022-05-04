@@ -36,11 +36,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public void incrementStockLevel(String name) {
         if (RetailerName.RET_A.name().equals(name)) {
-            productRepository.incrementStockLevel(5);
+            productRepository.incrementStockLevel(5, name);
         } else if (RetailerName.RET_B.name().equals(name)) {
-            productRepository.incrementStockLevel(8);
+            productRepository.incrementStockLevel(8, name);
         }
     }
 }
