@@ -5,4 +5,3 @@ Technologies:
 - PostgresSQL
 - Gradle
 - Hibernate
-- jpa
