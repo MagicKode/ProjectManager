@@ -4,5 +4,5 @@ public interface ProductService {
 
     void insertRandomProducts(Integer quantity);
 
-    void incrementStockLevel(String name);
+    void incrementStockLevelByRetailerName(String name);
 }

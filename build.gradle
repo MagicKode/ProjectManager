@@ -40,7 +40,6 @@ dependencies {
 
     //scheduler dependency
     testImplementation 'org.awaitility:awaitility:4.2.0'
-
 }
 
 tasks.named('test') {
