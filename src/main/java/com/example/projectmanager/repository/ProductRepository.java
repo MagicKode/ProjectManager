@@ -16,7 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "set stock_level = stock_level + :amount " +
             "from retailer_product " +
             "inner join retailer " +
-            "    on retailer.retailer_id = retailer_product.id_retailer " +
+            "on retailer.retailer_id = retailer_product.id_retailer " +
             "where retailer.name = :name",
             nativeQuery = true)
     void incrementStockLevel(Integer amount, String name);

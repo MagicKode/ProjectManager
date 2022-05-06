@@ -24,4 +24,8 @@ spring:
     generate-ddl: off
     database: postgresql
 
+#scheduler params
+product.quantity: 3
+
+scheduler.interval: PT5S
 
