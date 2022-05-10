@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "schedules",
+      "type": "java.lang.String",
+      "description": "Description for schedules."
+    },
+    {
+      "name": "scheduler",
+      "type": "java.lang.String",
+      "description": "Description for scheduler."
+    },
+    {
+      "name": "scheduler",
+      "type": "java.lang.String",
+      "description": "Description for scheduler."
+    }
+  ] }

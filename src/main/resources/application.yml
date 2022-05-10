@@ -24,8 +24,14 @@ spring:
     generate-ddl: off
     database: postgresql
 
+
 #scheduler params
 product.quantity: 3
 
 scheduler.interval: PT5S
 
+
+#product quantity params for Increment stockLevel
+Ret_A.amount: 5
+
+Ret_B.amount: 8
