@@ -50,6 +50,4 @@ public class ProductServiceImpl implements ProductService {
             productRepository.incrementStockLevel(amountOfStockLevelRet_A, name);
         } else if (RET_B.name().equals(name)) {
             productRepository.incrementStockLevel(amountOfStockLevelRet_B, name);
-        }
-    }
 }

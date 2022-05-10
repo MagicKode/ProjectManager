@@ -2,6 +2,7 @@
 server:
   port: 8080
 
+
 #Hibernate
 spring:
   datasource:
@@ -23,6 +24,7 @@ spring:
     open-in-view: false
     generate-ddl: off
     database: postgresql
+
 
 
 #scheduler params
