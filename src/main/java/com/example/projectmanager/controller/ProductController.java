@@ -1,11 +1,13 @@
 package com.example.projectmanager.controller;
 
-import com.example.projectmanager.entity.Product;
 import com.example.projectmanager.service.ProductService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 @RequestMapping("/products")
 @RestController
@@ -15,12 +17,12 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping(path = "/insert/{quantity}")
-    public void insertRandomProducts(@PathVariable String quantity) {
-        productService.insertRandomProducts(Integer.valueOf(quantity));
+    public void insertRandomProducts(@PathVariable Integer quantity) {
+        productService.insertRandomProducts(quantity);
     }
 
-    @PutMapping(path = "/")
+    @PostMapping(path = "/increment")
     public void incrementStockLevelByRetailer(@RequestParam String name) {
-        productService.incrementStockLevel(name);
+        productService.incrementStockLevelByRetailerName(name);
     }
 }

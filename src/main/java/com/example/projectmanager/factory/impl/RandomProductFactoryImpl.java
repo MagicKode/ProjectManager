@@ -4,20 +4,16 @@ import com.example.projectmanager.entity.Product;
 import com.example.projectmanager.entity.retName.RetailerName;
 import com.example.projectmanager.factory.RandomProductFactory;
 import com.example.projectmanager.repository.RetailerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
+@RequiredArgsConstructor
 @Component
 public class RandomProductFactoryImpl implements RandomProductFactory {
 
     private final RetailerRepository retailerRepository;
-
-    @Autowired
-    public RandomProductFactoryImpl(RetailerRepository retailerRepository) {
-        this.retailerRepository = retailerRepository;
-    }
 
     @Override
     public Product createRandomProduct() {
