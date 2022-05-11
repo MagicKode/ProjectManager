@@ -24,18 +24,20 @@ class RandomProductFactoryImplTest {
     @InjectMocks
     private RandomProductFactoryImpl testSubject;
 
+    private final String name = RetailerName.RET_A.name();
+
     @Test
-    void createRandomProduct() {
+    void shouldCreateRandomProduct() {
         //given
         Retailer retailer = new Retailer();
-        retailer.setName(RetailerName.RET_A.name());
-        when(retailerRepository.findByName(RetailerName.RET_A.name())).thenReturn(retailer);
+        retailer.setName(name);
+        when(retailerRepository.findByName(name)).thenReturn(retailer);
 
         //when
         Product result = testSubject.createRandomProduct();
 
         //then
         assertNotNull(result);
-        verify(retailerRepository, times(1)).findByName(RetailerName.RET_A.name());
+        verify(retailerRepository, times(1)).findByName(name);
     }
 }

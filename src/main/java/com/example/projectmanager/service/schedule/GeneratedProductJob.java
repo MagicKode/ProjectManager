@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class GeneratedProductJob {
 
-    @Value("${product.quantity}")
+    @Value("${scheduler.product.quantity}")
     private Integer quantity;
 
     private final ProductService productService;

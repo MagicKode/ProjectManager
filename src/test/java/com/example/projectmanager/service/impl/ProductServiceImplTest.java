@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Value;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -25,11 +24,6 @@ class ProductServiceImplTest {
 
     @InjectMocks
     ProductServiceImpl testSubject;
-
-    @Value("${Ret_A.amount}")
-    private static Integer amountOfStockLevelRet_A;
-    @Value("${Ret_B.amount}")
-    private static Integer amountOfStockLevelRet_B;
 
     @Test
     void shouldInsertRandomProducts() {
@@ -50,7 +44,7 @@ class ProductServiceImplTest {
         testSubject.incrementStockLevelByRetailerName(name);
 
         //then
-        verify(productRepository, times(1)).incrementStockLevel(amountOfStockLevelRet_A, name);
+        verify(productRepository, times(1)).incrementStockLevel(5, name);
     }
 
     @Test
@@ -62,6 +56,6 @@ class ProductServiceImplTest {
         testSubject.incrementStockLevelByRetailerName(name);
 
         //then
-        verify(productRepository, times(1)).incrementStockLevel(amountOfStockLevelRet_B, name);
+        verify(productRepository, times(1)).incrementStockLevel(8, name);
     }
 }
