@@ -11,14 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class GeneratedProductJob {
 
-    @Value("${product.quantity}")
-    private String quantity;
+    @Value("${scheduler.product.quantity}")
+    private Integer quantity;
 
     private final ProductService productService;
 
     @Scheduled(fixedDelayString = "${scheduler.interval}")
     @Transactional
     public void productScheduler() {
-        productService.insertRandomProducts(Integer.valueOf(quantity));
+        productService.insertRandomProducts(quantity);
     }
 }

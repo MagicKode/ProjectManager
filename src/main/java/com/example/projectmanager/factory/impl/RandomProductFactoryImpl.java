@@ -37,5 +37,3 @@ public class RandomProductFactoryImpl implements RandomProductFactory {
         return product;
     }
 }
-
-

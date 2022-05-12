@@ -1,23 +1,15 @@
 # Server configuration
 server:
   port: 8080
-
-
-#Hibernate
+# Hibernate
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/
     username: postgres
     password: root
-
-
-  # V(version)__description.sql
   flyway:
     baseline-on-migrate: true
     baseline-version: 0
-
-
-  #jpa properties
   jpa:
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -25,10 +17,9 @@ spring:
     generate-ddl: off
     database: postgresql
 
+scheduler.product.quantity: 3
+scheduler.interval: PT5S
 
-# scheduler in service
-product.quantity: 3
-
-scheduler.interval: PT20S
-
-
+#product quantity params for Increment stockLevel
+Ret_A.amount: 5
+Ret_B.amount: 8
