@@ -13,9 +13,9 @@ public class GeneratedProductJob {
 
     private final ProductService productService;
 
-    @Scheduled(fixedRate = 60_000)
+    @Scheduled(fixedRate = 100_000)
     @Transactional
     public void productScheduler() {
-        productService.insertRandomProducts(3);
+        productService.insertRandomProducts(1);
     }
 }

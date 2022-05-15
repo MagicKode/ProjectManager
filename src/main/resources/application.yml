@@ -24,4 +24,8 @@ spring:
     generate-ddl: off
     database: postgresql
 
+   #org.spring.jpa.properties.format_sql=true
+    properties:
+     format_sql: true
+
 

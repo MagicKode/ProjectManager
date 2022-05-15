@@ -1,7 +1,7 @@
 package com.example.projectmanager.factory.impl;
 
-import com.example.projectmanager.entity.Product;
-import com.example.projectmanager.entity.retName.RetailerName;
+import com.example.projectmanager.model.entity.Product;
+import com.example.projectmanager.model.entity.retName.RetailerName;
 import com.example.projectmanager.factory.RandomProductFactory;
 import com.example.projectmanager.repository.RetailerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +41,3 @@ public class RandomProductFactoryImpl implements RandomProductFactory {
         return product;
     }
 }
-
-
