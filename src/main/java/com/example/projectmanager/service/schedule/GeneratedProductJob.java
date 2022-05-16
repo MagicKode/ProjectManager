@@ -1,21 +1,24 @@
 package com.example.projectmanager.service.schedule;
 
 import com.example.projectmanager.service.ProductService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class GeneratedProductJob {
+
+    @Value("${scheduler.product.quantity}")
+    private Integer quantity;
 
     private final ProductService productService;
 
-    @Scheduled(fixedRate = 100_000)
+    @Scheduled(fixedDelayString = "${scheduler.interval}")
     @Transactional
     public void productScheduler() {
-        productService.insertRandomProducts(1);
+        productService.insertRandomProducts(quantity);
     }
 }
