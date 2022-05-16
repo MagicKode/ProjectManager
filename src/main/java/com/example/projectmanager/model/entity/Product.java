@@ -3,8 +3,6 @@ package com.example.projectmanager.model.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,6 +33,5 @@ public class Product {
     private Long stockLevel;
 
     @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
-    @ToString.Exclude
     private Set<Retailer> retailers = new HashSet<>();
 }

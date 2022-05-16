@@ -1,7 +1,7 @@
 package com.example.projectmanager.service.impl;
 
 import com.example.projectmanager.model.entity.Product;
-import com.example.projectmanager.model.entity.retName.RetailerName;
+import com.example.projectmanager.model.entity.enums.RetailerName;
 import com.example.projectmanager.factory.RandomProductFactory;
 import com.example.projectmanager.repository.ProductRepository;
 import com.example.projectmanager.service.ProductService;
@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -46,13 +45,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
     public List<Product> findByKeyWord(String keyword) {
-        return productRepository.findAll("%" + keyword + "%");
+        return productRepository.findProductsByKeyWord("%" + keyword + "%");
     }
 
     @Override
-    public List<Product> findAll() {
+    public List<Product> findAllProducts() {
         return productRepository.findAll();
     }
 }

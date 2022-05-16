@@ -17,5 +17,5 @@ public class ProductDto {
     private String title;
     private String description;
     private Long stockLevel;
-    private Set<Retailer> retailers = new HashSet<>();
+    private Set<RetailerDto> retailers = new HashSet<>();
 }

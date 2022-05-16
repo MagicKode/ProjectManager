@@ -1,12 +1,15 @@
 package com.example.projectmanager.controller;
 
 import com.example.projectmanager.model.dto.ProductDto;
-import com.example.projectmanager.model.entity.Product;
 import com.example.projectmanager.mapper.ProductMapper;
 import com.example.projectmanager.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RequestMapping("/products")
@@ -29,13 +32,11 @@ public class ProductController {
 
     @GetMapping(path = "/{keyword}")
     public List<ProductDto> findProductByKeyWord(@PathVariable String keyword) {
-        List<Product> findByKeyWord = productService.findByKeyWord(keyword);
-        return productMapper.toListProductDto(findByKeyWord);
+        return productMapper.toListProductDto(productService.findByKeyWord(keyword));
     }
 
     @GetMapping(path = "/")
     public List<ProductDto> findAllProducts(){
-        List<Product> findAll = productService.findAll();
-        return productMapper.toListProductDto(findAll);
+        return productMapper.toListProductDto(productService.findAllProducts());
     }
 }

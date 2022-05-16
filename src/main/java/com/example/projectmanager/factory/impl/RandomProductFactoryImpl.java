@@ -1,7 +1,7 @@
 package com.example.projectmanager.factory.impl;
 
 import com.example.projectmanager.model.entity.Product;
-import com.example.projectmanager.model.entity.retName.RetailerName;
+import com.example.projectmanager.model.entity.enums.RetailerName;
 import com.example.projectmanager.factory.RandomProductFactory;
 import com.example.projectmanager.repository.RetailerRepository;
 import lombok.RequiredArgsConstructor;

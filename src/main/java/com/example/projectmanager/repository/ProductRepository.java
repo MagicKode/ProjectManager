@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository
@@ -16,20 +15,20 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "" +
             "UPDATE product " +
             "SET stock_level = stock_level + :amount " +
-            "from retailer_product "+
-            "join retailer " +
+            "from retailer_product " +
+            "inner join retailer " +
             "ON retailer.retailer_id = retailer_product.id_retailer " +
-            "WHERE retailer.name = :name",
+            "WHERE product.product_id = retailer_product.id_product AND retailer.name = :name",
             nativeQuery = true)
     void incrementStockLevel(Integer amount, String name);
 
     @Query(value = "" +
-            "select * " +
-            "from product " +
-            "where title " +
-            "ilike :keyword  " +
-            "or description " +
-            "ilike :keyword",
+            "SELECT * " +
+            "FROM product " +
+            "WHERE title " +
+            "ILIKE :keyword  " +
+            "OR description " +
+            "ILIKE :keyword",
             nativeQuery = true)
-    List<Product> findAll(@Param("keyword") String keyword);
+    List<Product> findProductsByKeyWord(@Param("keyword") String keyword);
 }
