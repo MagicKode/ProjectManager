@@ -1,7 +1,7 @@
 package com.example.projectmanager.service.impl;
 
-import com.example.projectmanager.entity.retName.RetailerName;
 import com.example.projectmanager.factory.impl.RandomProductFactoryImpl;
+import com.example.projectmanager.model.entity.enums.RetailerName;
 import com.example.projectmanager.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
