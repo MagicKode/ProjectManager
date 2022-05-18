@@ -31,7 +31,7 @@ public class Retailer {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "retailer_product",
             joinColumns = {@JoinColumn(name = "id_retailer")},
