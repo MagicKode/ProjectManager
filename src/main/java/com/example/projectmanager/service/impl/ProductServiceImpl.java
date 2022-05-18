@@ -3,11 +3,9 @@ package com.example.projectmanager.service.impl;
 import com.example.projectmanager.mapper.ProductMapper;
 import com.example.projectmanager.model.dto.ProductDto;
 import com.example.projectmanager.model.entity.Product;
-import com.example.projectmanager.model.entity.Retailer;
 import com.example.projectmanager.model.entity.enums.RetailerName;
 import com.example.projectmanager.factory.RandomProductFactory;
 import com.example.projectmanager.repository.ProductRepository;
-import com.example.projectmanager.repository.RetailerRepository;
 import com.example.projectmanager.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -15,8 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -29,7 +25,6 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final RandomProductFactory randomProductFactory;
     private final ProductMapper productMapper;
-    private final RetailerRepository retailerRepository;
 
     @Override
     @Transactional
@@ -80,13 +75,6 @@ public class ProductServiceImpl implements ProductService {
         productFromDb.setTitle(product.getTitle());
         productFromDb.setDescription(product.getDescription());
         productFromDb.setStockLevel(product.getStockLevel());
-        Set<Retailer> retailersFormDB = product.getRetailers()
-                .stream()
-                .map(retailer -> retailerRepository.getById(retailer.getId()))
-                .peek(retailer -> retailer.getProducts().add(productFromDb))
-                .collect(Collectors.toSet());
-        productFromDb.setRetailers(retailersFormDB);
-        productFromDb.getRetailers().stream().forEach(retailer -> System.out.println(retailer.getName()));
         return productMapper.toProductDto(productRepository.save(productFromDb));
     }
 

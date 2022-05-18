@@ -19,7 +19,3 @@ spring:
 
 scheduler.product.quantity: 1
 scheduler.interval: PT120S
-
-#product quantity params for Increment stockLevel
-Ret_A.amount: 5
-Ret_B.amount: 8

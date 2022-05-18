@@ -6,7 +6,6 @@ import com.example.projectmanager.factory.RandomProductFactory;
 import com.example.projectmanager.repository.RetailerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import java.util.Random;
 
 @RequiredArgsConstructor

@@ -3,8 +3,6 @@ package com.example.projectmanager.model.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,6 +32,6 @@ public class Product {
     @Column(name = "stock_level")
     private Long stockLevel;
 
-    @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
     private Set<Retailer> retailers = new HashSet<>();
 }

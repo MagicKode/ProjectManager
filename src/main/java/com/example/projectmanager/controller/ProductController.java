@@ -26,13 +26,15 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping(path = "/insert/{quantity}")
-    public void insertRandomProducts(@PathVariable Integer quantity) {
+    public ResponseEntity<Void> insertRandomProducts(@PathVariable Integer quantity) {
         productService.insertRandomProducts(quantity);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(path = "/increment")
-    public void incrementStockLevelByRetailer(@RequestParam String name) {
+    public ResponseEntity<Void> incrementStockLevelByRetailer(@RequestParam String name) {
         productService.incrementStockLevelByRetailerName(name);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(path = "/search")
@@ -48,10 +50,10 @@ public class ProductController {
     @GetMapping(path = "/")
     public ResponseEntity<List<ProductDto>> findAllProducts() {
         List<ProductDto> productsDto = productService.findAllProducts();
-        if (!productsDto.isEmpty()){
-            return new ResponseEntity<>(productsDto, HttpStatus.OK);
-        }else {
+        if (productsDto.isEmpty()){
             return new ResponseEntity<>(null, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(productsDto, HttpStatus.OK);
         }
     }
 
@@ -60,23 +62,26 @@ public class ProductController {
         ProductDto productDto = productService.getById(id);
         if (productDto != null) {
             return new ResponseEntity<>(productDto, HttpStatus.OK);
-        } else {
+        } else{
             return new ResponseEntity<>(new ResponseMessage("No product found with such id"), HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping(path = "/")
-    public ProductDto update(@RequestBody Product product) {
-        return productService.updateProduct(product);
+    public ResponseEntity<ProductDto> update(@RequestBody Product product) {
+        ProductDto productsDto = productService.updateProduct(product);
+        return new ResponseEntity<>(productsDto, HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         productService.deleteProductById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(path = "/")
-    public Product create(@RequestBody Product product) {
-        return productService.create(product);
+    public ResponseEntity<Product> create(@RequestBody Product product) {
+        Product createProduct = productService.create(product);
+        return new ResponseEntity<>(createProduct, HttpStatus.OK);
     }
 }

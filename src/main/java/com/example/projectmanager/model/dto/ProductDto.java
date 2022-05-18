@@ -1,6 +1,5 @@
 package com.example.projectmanager.model.dto;
 
-import com.example.projectmanager.model.entity.Retailer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
