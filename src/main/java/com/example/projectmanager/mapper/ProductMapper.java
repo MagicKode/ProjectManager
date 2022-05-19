@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface ProductMapper {
     ProductDto toProductDto(Product product);
-
     List<ProductDto> toListProductDto(List<Product> products);
 }

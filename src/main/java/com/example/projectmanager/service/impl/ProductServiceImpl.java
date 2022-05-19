@@ -6,17 +6,16 @@ import com.example.projectmanager.model.entity.Product;
 import com.example.projectmanager.model.entity.enums.RetailerName;
 import com.example.projectmanager.factory.RandomProductFactory;
 import com.example.projectmanager.repository.ProductRepository;
-import com.example.projectmanager.repository.RetailerRepository;
 import com.example.projectmanager.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +25,6 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final RandomProductFactory randomProductFactory;
     private final ProductMapper productMapper;
-    private final RetailerRepository retailerRepository;
 
     @Override
     @Transactional
@@ -52,7 +50,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> findByKeyWord(String keyword) {
         List<Product> findByKeyWord = productRepository.findProductsByKeyWord("%" + keyword + "%");
-        log.info("Found product with title = {}", findByKeyWord);
         return productMapper.toListProductDto(findByKeyWord);
     }
 
@@ -72,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public ProductDto updateProduct(Product product) {
+    public ProductDto update(Product product) {
         Product productFromDb = productRepository.getById(product.getId());
         productFromDb.setTitle(product.getTitle());
         productFromDb.setDescription(product.getDescription());
@@ -93,7 +90,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product create(Product product) {
-        log.info("Product was created = {}", product);
         return productRepository.save(product);
     }
 }

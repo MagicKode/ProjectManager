@@ -2,6 +2,7 @@ package com.example.projectmanager.service;
 
 import com.example.projectmanager.model.dto.ProductDto;
 import com.example.projectmanager.model.entity.Product;
+
 import java.util.List;
 
 public interface ProductService {
@@ -11,7 +12,7 @@ public interface ProductService {
     void deleteProductById(Long id);
 
     ProductDto getById(Long id);
-    ProductDto updateProduct(Product product);
+    ProductDto update(Product product);
     Product create(Product product);
 
     List<ProductDto> findByKeyWord(String keyword);

@@ -2,7 +2,6 @@ package com.example.projectmanager.controller;
 
 import com.example.projectmanager.model.dto.ProductDto;
 import com.example.projectmanager.model.entity.Product;
-import com.example.projectmanager.model.response.ResponseMessage;
 import com.example.projectmanager.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 @RequestMapping("/products")
@@ -40,9 +40,9 @@ public class ProductController {
     @GetMapping(path = "/search")
     public ResponseEntity<List<ProductDto>> findProductByKeyWord(@RequestParam String keyword) {
         List<ProductDto> productsDto = productService.findByKeyWord(keyword);
-        if (productsDto != null){
+        if (productsDto != null) {
             return new ResponseEntity<>(productsDto, HttpStatus.OK);
-        }else {
+        } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
@@ -50,9 +50,9 @@ public class ProductController {
     @GetMapping(path = "/")
     public ResponseEntity<List<ProductDto>> findAllProducts() {
         List<ProductDto> productsDto = productService.findAllProducts();
-        if (productsDto.isEmpty()){
-            return new ResponseEntity<>(null, HttpStatus.OK);
-        }else {
+        if (productsDto.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } else {
             return new ResponseEntity<>(productsDto, HttpStatus.OK);
         }
     }
@@ -62,14 +62,14 @@ public class ProductController {
         ProductDto productDto = productService.getById(id);
         if (productDto != null) {
             return new ResponseEntity<>(productDto, HttpStatus.OK);
-        } else{
-            return new ResponseEntity<>(new ResponseMessage("No product found with such id"), HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>("No product found with such id", HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping(path = "/")
     public ResponseEntity<ProductDto> update(@RequestBody Product product) {
-        ProductDto productsDto = productService.updateProduct(product);
+        ProductDto productsDto = productService.update(product);
         return new ResponseEntity<>(productsDto, HttpStatus.OK);
     }
 
