@@ -1,8 +1,11 @@
 package com.example.projectmanager.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,8 +17,10 @@ import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
+@Builder
 @Entity
 @Table(name = "product")
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter

@@ -29,10 +29,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void insertRandomProducts(Integer quantity) {
-        List<Product> products = IntStream
-                .range(0, quantity)
-                .mapToObj(i -> randomProductFactory.createRandomProduct())
-                .collect(Collectors.toList());
+        List<Product> products = IntStream.range(0, quantity).mapToObj(i -> randomProductFactory.createRandomProduct()).collect(Collectors.toList());
         productRepository.saveAll(products);
         log.info("created products = {}", products);
     }
@@ -81,8 +78,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public void deleteProductById(Long id) {
         Product product = productRepository.getById(id);
-        product.getRetailers()
-                .forEach(retailer -> retailer.getProducts().removeIf(p -> p.getId().equals(product.getId())));
+        product.getRetailers().forEach(retailer -> retailer.getProducts().removeIf(p -> p.getId().equals(product.getId())));
         productRepository.delete(product);
         log.info("Deleted product with id = {}", id);
     }
