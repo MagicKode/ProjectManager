@@ -6,6 +6,7 @@ import com.example.projectmanager.model.entity.Product;
 import com.example.projectmanager.model.entity.enums.RetailerName;
 import com.example.projectmanager.factory.RandomProductFactory;
 import com.example.projectmanager.repository.ProductRepository;
+import com.example.projectmanager.repository.RetailerRepository;
 import com.example.projectmanager.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final RandomProductFactory randomProductFactory;
     private final ProductMapper productMapper;
+    private final RetailerRepository retailerRepository;
 
     @Override
     @Transactional
@@ -82,6 +84,8 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public void deleteProductById(Long id) {
         Product product = productRepository.getById(id);
+        product.getRetailers()
+                .forEach(retailer -> retailer.getProducts().removeIf(p -> p.getId().equals(product.getId())));
         productRepository.delete(product);
         log.info("Deleted product with id = {}", id);
     }
