@@ -82,8 +82,7 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProductById(Long id) {
         Product product = productRepository.getById(id);
         product.getRetailers()
-                .forEach(retailer -> retailer.getProducts()
-                .removeIf(p -> p.getId().equals(product.getId())));
+                .forEach(retailer -> retailer.getProducts().removeIf(p -> p.getId().equals(product.getId())));
         productRepository.delete(product);
         log.info("Deleted product with id = {}", id);
     }
