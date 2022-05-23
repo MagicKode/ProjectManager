@@ -1,5 +1,6 @@
 package com.example.projectmanager.controller;
 
+import com.example.projectmanager.exception.NotFoundException;
 import com.example.projectmanager.model.dto.ProductDto;
 import com.example.projectmanager.model.entity.Product;
 import com.example.projectmanager.service.ProductService;
@@ -38,7 +39,7 @@ public class ProductController {
     }
 
     @GetMapping(path = "/search")
-    public ResponseEntity<List<ProductDto>> findProductByKeyWord(@RequestParam String keyword) {
+    public ResponseEntity<List<ProductDto>> findByKeyWord(@RequestParam String keyword) {
         List<ProductDto> productsDto = productService.findByKeyWord(keyword);
         if (productsDto != null) {
             return new ResponseEntity<>(productsDto, HttpStatus.OK);
@@ -48,8 +49,8 @@ public class ProductController {
     }
 
     @GetMapping(path = "/")
-    public ResponseEntity<List<ProductDto>> findAllProducts() {
-        List<ProductDto> productsDto = productService.findAllProducts();
+    public ResponseEntity<List<ProductDto>> findAll() {
+        List<ProductDto> productsDto = productService.findAll();
         if (productsDto.isEmpty()) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } else {
@@ -59,7 +60,7 @@ public class ProductController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Object> findById(@PathVariable Long id) {
-        ProductDto productDto = productService.getById(id);
+        ProductDto productDto = productService.findById(id);
         if (productDto != null) {
             return new ResponseEntity<>(productDto, HttpStatus.OK);
         } else {
@@ -74,8 +75,8 @@ public class ProductController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        productService.deleteProductById(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id) throws NotFoundException {
+        productService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
