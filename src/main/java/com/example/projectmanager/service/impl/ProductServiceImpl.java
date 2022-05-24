@@ -50,8 +50,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findByKeyWord(String keyword) {
-        List<Product> findByKeyWord = productRepository.findProductsByKeyWord("%" + keyword + "%");
-        return productMapper.toListProductDto(findByKeyWord);
+        List<Product> products = productRepository.findByKeyWord("%" + keyword + "%");
+        return productMapper.toListProductDto(products);
     }
 
     @Override
@@ -63,9 +63,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto findById(Long id) {
-        Product findProductById = productRepository.findById(id).orElseThrow(() -> new NotFoundException("No product found with such id = " + id));
+        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("No product found with such id = " + id));
         log.info("Found product with id = {}", id);
-        return productMapper.toProductDto(findProductById);
+        return productMapper.toProductDto(product);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product create(Product product) {
-            return productRepository.save(product);
+    public ProductDto create(Product product) {
+        return productMapper.toProductDto(productRepository.save(product));
     }
 }

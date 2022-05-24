@@ -14,7 +14,7 @@ public interface ProductService {
 
     ProductDto findById(Long id);
     ProductDto update(Product product);
-    Product create(Product product);
+    ProductDto create(Product product);
 
     List<ProductDto> findByKeyWord(String keyword);
     List<ProductDto> findAll();
