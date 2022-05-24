@@ -1,6 +1,5 @@
 package com.example.projectmanager.service;
 
-import com.example.projectmanager.exception.NotFoundException;
 import com.example.projectmanager.model.dto.ProductDto;
 import com.example.projectmanager.model.entity.Product;
 
@@ -10,7 +9,7 @@ public interface ProductService {
 
     void insertRandomProducts(Integer quantity);
     void incrementStockLevelByRetailerName(String name);
-    void deleteById(Long id) throws NotFoundException;
+    void deleteById(Long id);
 
     ProductDto findById(Long id);
     ProductDto update(Product product);

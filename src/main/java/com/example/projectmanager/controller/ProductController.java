@@ -1,6 +1,5 @@
 package com.example.projectmanager.controller;
 
-import com.example.projectmanager.exception.NotFoundException;
 import com.example.projectmanager.model.dto.ProductDto;
 import com.example.projectmanager.model.entity.Product;
 import com.example.projectmanager.service.ProductService;
@@ -59,7 +58,7 @@ public class ProductController {
     }
 
     @DeleteMapping(path = "{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) throws NotFoundException {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         productService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
