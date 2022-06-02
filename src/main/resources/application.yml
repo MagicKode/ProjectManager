@@ -16,6 +16,8 @@ spring:
     open-in-view: false
     generate-ddl: off
     database: postgresql
+  config:
+    import: optional:configserver:http://localhost:8888
 
 scheduler.product.quantity: 1
 scheduler.interval: PT120S

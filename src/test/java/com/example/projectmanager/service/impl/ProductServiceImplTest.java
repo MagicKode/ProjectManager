@@ -96,27 +96,6 @@ class ProductServiceImplTest {
         verify(productMapper, times(1)).toListProductDto(products);
     }
 
-    @Test
-    void shouldFindAll() {
-        //given
-        Product product = new Product();
-        List<Product> products = new ArrayList<>();
-        products.add(product);
-        List<ProductDto> productDtos = new ArrayList<>();
-        ProductDto productDto = new ProductDto();
-        productDtos.add(productDto);
-        when(productRepository.findAll()).thenReturn(products);
-        when(productMapper.toListProductDto(products)).thenReturn(productDtos);
-
-        //when
-        List<ProductDto> result = testSubject.findAll();
-
-        //then
-        assertEquals(productDtos, result);
-        verify(productRepository, times(1)).findAll();
-        verify(productMapper, times(1)).toListProductDto(products);
-
-    }
 
     @Test
     void shouldFindById() {

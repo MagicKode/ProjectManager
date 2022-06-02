@@ -1,5 +1,6 @@
 package com.example.projectmanager.service.impl;
 
+import com.example.projectmanager.service.ProductService;
 import com.example.projectmanager.exception.NotFoundException;
 import com.example.projectmanager.mapper.ProductMapper;
 import com.example.projectmanager.model.dto.ProductDto;
@@ -7,13 +8,14 @@ import com.example.projectmanager.model.entity.Product;
 import com.example.projectmanager.model.entity.enums.RetailerName;
 import com.example.projectmanager.factory.RandomProductFactory;
 import com.example.projectmanager.repository.ProductRepository;
-import com.example.projectmanager.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -26,6 +28,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final RandomProductFactory randomProductFactory;
     private final ProductMapper productMapper;
+    private static final List<Product> productsFromDb = new ArrayList<>();
 
     @Override
     @Transactional
@@ -55,10 +58,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> findAll() {
-        List<Product> products = productRepository.findAll();
-        log.info("Found all products");
-        return productMapper.toListProductDto(products);
+    public List<ProductDto> blogPageable(Pageable pageable) {
+        return productMapper.toListProductDto(productRepository.findAll(pageable).getContent());
     }
 
     @Override
@@ -75,13 +76,14 @@ public class ProductServiceImpl implements ProductService {
         productFromDb.setTitle(product.getTitle());
         productFromDb.setDescription(product.getDescription());
         productFromDb.setStockLevel(product.getStockLevel());
+//        Long timestamp = product.lastModified();
         return productMapper.toProductDto(productRepository.save(productFromDb));
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("No product deleted with such id = " + id ));
+        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("No product deleted with such id = " + id));
         product.getRetailers()
                 .forEach(retailer -> retailer.getProducts().removeIf(p -> p.getId().equals(product.getId())));
         productRepository.delete(product);

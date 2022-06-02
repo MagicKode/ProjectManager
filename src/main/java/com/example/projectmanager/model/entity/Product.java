@@ -20,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Product {
+public class Product extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

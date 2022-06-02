@@ -8,6 +8,5 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class RetailerDto {
-    private Long id;
     private String name;
 }

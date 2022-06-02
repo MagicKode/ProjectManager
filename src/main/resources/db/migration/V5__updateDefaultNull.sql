@@ -1,0 +1,3 @@
+ALTER TABLE product
+DROP COLUMN updated_at,
+ADD COLUMN updated_at TIMESTAMP DEFAULT NULL;
