@@ -1,6 +1,5 @@
 package com.example.projectmanager.service.impl;
 
-import com.example.projectmanager.model.entity.Retailer;
 import com.example.projectmanager.service.ProductService;
 import com.example.projectmanager.exception.NotFoundException;
 import com.example.projectmanager.mapper.ProductMapper;
@@ -16,8 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -30,7 +29,6 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final RandomProductFactory randomProductFactory;
     private final ProductMapper productMapper;
-    private static final List<Product> productsFromDb = new ArrayList<>();
 
     @Override
     @Transactional
@@ -99,14 +97,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> findParamsOfProductFoundByStockLevelRetailerStartDateEndDate(Long stockLevel, String retailer, LocalDate startDate, LocalDate endDate) {
-
+    public List<ProductDto> findParamsOfProductFoundByStockLevelRetailerStartDateEndDate(Long stockLevel, String retailerName, Date startDate, Date endDate) {
 //        return productMapper.toListProductDto(productRepository.findByStockLevelGreaterThanEqual(stockLevel));
-        List<Product> byRetailersNameEquals = productRepository.findByRetailersNameEquals(retailer);
-        return productMapper.toListProductDto(byRetailersNameEquals);
-//        return productMapper.toListProductDto(productRepository.findByStartDateBetween(startDate, endDate));
-
-
-
+//        return productMapper.toListProductDto(productRepository.findByRetailers_Name(retailerName));
+//        return productMapper.toListProductDto(productRepository.findByCreatedAtBetween(startDate, endDate));
+        return productMapper.toListProductDto(productRepository.findByStockLevelGreaterThanEqualAndRetailers_NameAndCreatedAtBetween(
+                stockLevel, retailerName, startDate, endDate
+        ));
     }
 }

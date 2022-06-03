@@ -2,7 +2,6 @@ package com.example.projectmanager.controller;
 
 import com.example.projectmanager.model.dto.ProductDto;
 import com.example.projectmanager.model.entity.Product;
-import com.example.projectmanager.model.entity.Retailer;
 import com.example.projectmanager.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -19,8 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @RequestMapping("/products/")
@@ -77,8 +75,8 @@ public class ProductController {
     public ResponseEntity<List<ProductDto>> getParams(
             @RequestParam String retailerName,
             @RequestParam Long stockLevel,//>=
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate
     ) {
 
         return new ResponseEntity<List<ProductDto>>(

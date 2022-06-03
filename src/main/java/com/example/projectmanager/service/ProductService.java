@@ -6,6 +6,7 @@ import com.example.projectmanager.model.entity.Retailer;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public interface ProductService {
@@ -20,5 +21,5 @@ public interface ProductService {
     ProductDto findById(Long id);
     ProductDto update(Product product);
     ProductDto create(Product product);
-    List<ProductDto> findParamsOfProductFoundByStockLevelRetailerStartDateEndDate(Long stockLevel, String retailer, LocalDate startDate, LocalDate endDate);
+    List<ProductDto> findParamsOfProductFoundByStockLevelRetailerStartDateEndDate(Long stockLevel, String retailer, /*LocalDate*/ Date startDate, /*LocalDate*/ Date endDate);
 }

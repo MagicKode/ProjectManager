@@ -37,31 +37,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             nativeQuery = true)
     List<Product> findByKeyWord(@Param("keyword") String keyword);
 
-    /*@Query(value = "" +
-            "SELECT * FROM product p " +
-            "inner join retailer_product rp " +
-            "on p.product_id = rp.id_product " +
-            "inner join retailer r " +
-            "on r.retailer_id = rp.id_retailer " +
-            "WHERE stock_level = :stockLevel " +
-            "and r.name = :retailerName " +
-            "and created_at between created_at = :startDate and updated_at = :endDate",
-            nativeQuery = true)*/
-//    List<Product> findParamsOfProductFoundByStockLevelRetailerStartDateEndDate(
-//            @Param("stockLevel") Long stockLevel,
-//            @Param("retailer") String retailer,
-//            @Param("startDate") LocalDate createDate,
-//            @Param("endDate") LocalDate updateDate
-//    );
-//
+    List<Product> findByStockLevelGreaterThanEqual(@Param("stockLevel") Long stockLevel);
+    List<Product> findByRetailers_Name(@Param("retailerName") String retailerName);
+    List<Product> findByCreatedAtBetween(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
-//    List<Product> findByStockLevelGreaterThanEqual(Long stockLevel);
-    List<Product> findByRetailersNameEquals(String retailer);
-
-//    @Modifying
-//    @Transactional
-//    @Query(value = "select p from Product p where p.createdAt >= :from and p.createdAt <= :to ")
-//    List<Product> findByStartDateBetween(@Param("from") LocalDate startDate, @Param("to") LocalDate endDate);
-
-
+    List<Product> findByStockLevelGreaterThanEqualAndRetailers_NameAndCreatedAtBetween(
+            @Param("stockLevel") Long stockLevel,
+            @Param("retailer") String retailer,
+            @Param("startDate") Date createDate,
+            @Param("endDate") Date updateDate
+    );
 }
