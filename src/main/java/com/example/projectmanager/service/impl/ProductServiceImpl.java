@@ -1,5 +1,6 @@
 package com.example.projectmanager.service.impl;
 
+import com.example.projectmanager.model.entity.Retailer;
 import com.example.projectmanager.service.ProductService;
 import com.example.projectmanager.exception.NotFoundException;
 import com.example.projectmanager.mapper.ProductMapper;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -94,5 +96,17 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public ProductDto create(Product product) {
         return productMapper.toProductDto(productRepository.save(product));
+    }
+
+    @Override
+    public List<ProductDto> findParamsOfProductFoundByStockLevelRetailerStartDateEndDate(Long stockLevel, String retailer, LocalDate startDate, LocalDate endDate) {
+
+//        return productMapper.toListProductDto(productRepository.findByStockLevelGreaterThanEqual(stockLevel));
+        List<Product> byRetailersNameEquals = productRepository.findByRetailersNameEquals(retailer);
+        return productMapper.toListProductDto(byRetailersNameEquals);
+//        return productMapper.toListProductDto(productRepository.findByStartDateBetween(startDate, endDate));
+
+
+
     }
 }

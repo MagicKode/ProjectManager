@@ -2,6 +2,7 @@ package com.example.projectmanager.controller;
 
 import com.example.projectmanager.model.dto.ProductDto;
 import com.example.projectmanager.model.entity.Product;
+import com.example.projectmanager.model.entity.Retailer;
 import com.example.projectmanager.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -19,8 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 
 @RequestMapping("/products/")
@@ -53,7 +53,7 @@ public class ProductController {
     }
 
     @GetMapping(path = "{id}")
-    public ResponseEntity<Object> findById(@PathVariable Long id) {
+    public ResponseEntity<ProductDto> findById(@PathVariable Long id) {
         return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
     }
 
@@ -73,14 +73,21 @@ public class ProductController {
         return new ResponseEntity<>(productService.create(product), HttpStatus.CREATED);
     }
 
-    @GetMapping("feign/")
-    public ResponseEntity<ProductDto> getParams(
+    @GetMapping("byParams")
+    public ResponseEntity<List<ProductDto>> getParams(
             @RequestParam String retailerName,
-            @RequestParam Long stockLevel,
+            @RequestParam Long stockLevel,//>=
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
     ) {
-        System.out.println(123);
-        return null;
+
+        return new ResponseEntity<List<ProductDto>>(
+                productService.findParamsOfProductFoundByStockLevelRetailerStartDateEndDate(stockLevel, retailerName, startDate, endDate)
+                ,
+                HttpStatus.OK
+        );
     }
+
+
+
 }
