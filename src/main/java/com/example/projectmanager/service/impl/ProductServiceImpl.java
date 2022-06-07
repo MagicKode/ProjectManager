@@ -15,8 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -76,7 +75,6 @@ public class ProductServiceImpl implements ProductService {
         productFromDb.setTitle(product.getTitle());
         productFromDb.setDescription(product.getDescription());
         productFromDb.setStockLevel(product.getStockLevel());
-//        Long timestamp = product.lastModified();
         return productMapper.toProductDto(productRepository.save(productFromDb));
     }
 
@@ -97,12 +95,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> findParamsOfProductFoundByStockLevelRetailerStartDateEndDate(Long stockLevel, String retailerName, Date startDate, Date endDate) {
-//        return productMapper.toListProductDto(productRepository.findByStockLevelGreaterThanEqual(stockLevel));
-//        return productMapper.toListProductDto(productRepository.findByRetailers_Name(retailerName));
-//        return productMapper.toListProductDto(productRepository.findByCreatedAtBetween(startDate, endDate));
-        return productMapper.toListProductDto(productRepository.findByStockLevelGreaterThanEqualAndRetailers_NameAndCreatedAtBetween(
-                stockLevel, retailerName, startDate, endDate
-        ));
+    public List<ProductDto> findByParams(
+            Long stockLevel,
+            String retailerName,
+            LocalDateTime startDate,
+            LocalDateTime endDate
+    ) {
+        return productMapper.toListProductDto(
+                productRepository.findByStockLevelGreaterThanEqualAndRetailers_NameAndCreatedAtAndUpdatedAt(
+                        stockLevel, retailerName, startDate, endDate
+                )
+        );
     }
 }

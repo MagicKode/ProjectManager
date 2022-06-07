@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -71,21 +72,14 @@ public class ProductController {
         return new ResponseEntity<>(productService.create(product), HttpStatus.CREATED);
     }
 
-    @GetMapping("byParams")
+    @GetMapping("byParams")// TODO подумать надо над нормальным мапингом почитать в интернетах что и как делается
     public ResponseEntity<List<ProductDto>> getParams(
             @RequestParam String retailerName,
-            @RequestParam Long stockLevel,//>=
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate
+            @RequestParam Long stockLevel,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate
     ) {
-
-        return new ResponseEntity<List<ProductDto>>(
-                productService.findParamsOfProductFoundByStockLevelRetailerStartDateEndDate(stockLevel, retailerName, startDate, endDate)
-                ,
-                HttpStatus.OK
-        );
+        return new ResponseEntity<>(
+                productService.findByParams(stockLevel, retailerName, startDate, endDate), HttpStatus.OK);
     }
-
-
-
 }

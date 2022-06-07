@@ -1,2 +1,0 @@
-ALTER TABLE product
-ADD COLUMN updated_at1 TIMESTAMP DEFAULT NOW();
