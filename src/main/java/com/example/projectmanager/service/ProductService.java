@@ -13,7 +13,7 @@ public interface ProductService {
     void incrementStockLevelByRetailerName(String name);
     void deleteById(Long id);
 
-    List<ProductDto> blogPageable(Pageable pageable);
+    List<ProductDto> findPageable(Pageable pageable);
     List<ProductDto> findByKeyWord(String keyword);
     List<ProductDto> findByParams(Long stockLevel, String retailerName, LocalDateTime startDate, LocalDateTime endDate);
 

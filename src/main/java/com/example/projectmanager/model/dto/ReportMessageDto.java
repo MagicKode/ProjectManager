@@ -16,4 +16,7 @@ public class ReportMessageDto {
     private LocalDateTime endDate;
     private Long minStockLevel;
     private RetailerDto retailer;
+
+
+
 }

@@ -53,29 +53,35 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> findByKeyWord(String keyword) {
         List<Product> products = productRepository.findByKeyWord("%" + keyword + "%");
-        return productMapper.toListProductDto(products);
+        return productMapper.toListProductDtoWithoutRetailers(products);
     }
 
     @Override
-    public List<ProductDto> blogPageable(Pageable pageable) {
-        return productMapper.toListProductDto(productRepository.findAll(pageable).getContent());
+    public List<ProductDto> findPageable(Pageable pageable) {
+        return productMapper.toListProductDtoWithoutRetailers(productRepository.findAll(pageable).getContent());
     }
 
     @Override
     public ProductDto findById(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("No product found with such id = " + id));
+        Product product = productRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("No product found with such id = " + id)
+        );
         log.info("Found product with id = {}", id);
-        return productMapper.toProductDto(product);
+        return productMapper.toProductDtoWithoutRetailers(product);
     }
 
     @Override
     @Transactional
     public ProductDto update(Product product) {
-        Product productFromDb = productRepository.findById(product.getId()).orElseThrow(() -> new NotFoundException("No product updated with such id = " + product.getId()));
+        Product productFromDb = productRepository.findById(
+                        product.getId()).orElseThrow(
+                                () -> new NotFoundException("No product updated with such id = " + product.getId())
+        );
         productFromDb.setTitle(product.getTitle());
         productFromDb.setDescription(product.getDescription());
         productFromDb.setStockLevel(product.getStockLevel());
-        return productMapper.toProductDto(productRepository.save(productFromDb));
+//        productFromDb.getRetailers().stream().map(Retailer::getName).forEach(System.out::println);
+        return productMapper.toProductDtoWithoutRetailers(productRepository.save(productFromDb));
     }
 
     @Override
@@ -101,10 +107,11 @@ public class ProductServiceImpl implements ProductService {
             LocalDateTime startDate,
             LocalDateTime endDate
     ) {
+        List<Product> products = productRepository.findByStockLevelGreaterThanEqualAndRetailers_NameAndCreatedAtBetween(
+                stockLevel, retailerName, startDate, endDate
+        );
         return productMapper.toListProductDto(
-                productRepository.findByStockLevelGreaterThanEqualAndRetailers_NameAndCreatedAtAndUpdatedAt(
-                        stockLevel, retailerName, startDate, endDate
-                )
+                products
         );
     }
 }

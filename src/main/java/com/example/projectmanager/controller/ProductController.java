@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @RequestMapping("/products/")
@@ -46,9 +46,9 @@ public class ProductController {
         return new ResponseEntity<>(productService.findByKeyWord(keyword), HttpStatus.OK);
     }
 
-    @GetMapping(path = "blogPageable")
-    public ResponseEntity<List<ProductDto>> blogPageable(Pageable pageable) {
-        return new ResponseEntity<>(productService.blogPageable(pageable), HttpStatus.OK);
+    @GetMapping(path = "pageable")
+    public ResponseEntity<List<ProductDto>> findPageable(Pageable pageable) {
+        return new ResponseEntity<>(productService.findPageable(pageable), HttpStatus.OK);
     }
 
     @GetMapping(path = "{id}")
@@ -72,12 +72,12 @@ public class ProductController {
         return new ResponseEntity<>(productService.create(product), HttpStatus.CREATED);
     }
 
-    @GetMapping("byParams")// TODO подумать надо над нормальным мапингом почитать в интернетах что и как делается
+    @GetMapping("byParams")  //TODO нормальный мапинг в url
     public ResponseEntity<List<ProductDto>> getParams(
-            @RequestParam String retailerName,
-            @RequestParam Long stockLevel,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate
+            String retailerName,
+            Long stockLevel,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate
     ) {
         return new ResponseEntity<>(
                 productService.findByParams(stockLevel, retailerName, startDate, endDate), HttpStatus.OK);
