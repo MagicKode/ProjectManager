@@ -21,7 +21,6 @@ import java.util.Set;
 @Getter
 @Setter
 public class Product extends DateAudit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")

@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ProductService {
-
     void insertRandomProducts(Integer quantity);
     void incrementStockLevelByRetailerName(String name);
     void deleteById(Long id);
@@ -20,5 +19,4 @@ public interface ProductService {
     ProductDto findById(Long id);
     ProductDto update(Product product);
     ProductDto create(Product product);
-
 }

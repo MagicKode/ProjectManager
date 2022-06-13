@@ -10,10 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class GeneratedProductJob {
-
     @Value("${scheduler.product.quantity}")
     private Integer quantity;
-
     private final ProductService productService;
 
     @Scheduled(fixedDelayString = "${scheduler.interval}")

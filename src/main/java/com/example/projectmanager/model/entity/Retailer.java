@@ -23,7 +23,6 @@ import java.util.Set;
 @Getter
 @Setter
 public class Retailer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "retailer_id", unique = true)

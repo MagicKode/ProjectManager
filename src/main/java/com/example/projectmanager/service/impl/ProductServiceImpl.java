@@ -23,7 +23,6 @@ import java.util.stream.IntStream;
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
-
     private static final Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
     private final ProductRepository productRepository;
     private final RandomProductFactory randomProductFactory;
@@ -74,20 +73,22 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public ProductDto update(Product product) {
         Product productFromDb = productRepository.findById(
-                        product.getId()).orElseThrow(
-                                () -> new NotFoundException("No product updated with such id = " + product.getId())
+                product.getId()).orElseThrow(
+                () -> new NotFoundException("No product updated with such id = " + product.getId()
+                )
         );
         productFromDb.setTitle(product.getTitle());
         productFromDb.setDescription(product.getDescription());
         productFromDb.setStockLevel(product.getStockLevel());
-//        productFromDb.getRetailers().stream().map(Retailer::getName).forEach(System.out::println);
         return productMapper.toProductDtoWithoutRetailers(productRepository.save(productFromDb));
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("No product deleted with such id = " + id));
+        Product product = productRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("No product deleted with such id = " + id)
+        );
         product.getRetailers()
                 .forEach(retailer -> retailer.getProducts().removeIf(p -> p.getId().equals(product.getId())));
         productRepository.delete(product);

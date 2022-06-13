@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
@@ -26,7 +25,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class ProductController {
-
     private final ProductService productService;
 
     @PostMapping(path = "insert/{quantity}")
@@ -72,7 +70,7 @@ public class ProductController {
         return new ResponseEntity<>(productService.create(product), HttpStatus.CREATED);
     }
 
-    @GetMapping("byParams")  //TODO нормальный мапинг в url
+    @GetMapping(path = "byRetNameAndStockLevelAndStartDateAndEndDate")
     public ResponseEntity<List<ProductDto>> getParams(
             String retailerName,
             Long stockLevel,

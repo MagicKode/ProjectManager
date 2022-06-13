@@ -17,7 +17,7 @@ public class ProduceMessageController {
     private final JmsProducer jmsProducer;
 
     @GetMapping()
-    public ResponseEntity<Void> sendMessage(@RequestBody ReportMessageDto reportMessageDto){
+    public ResponseEntity<Void> sendMessage(@RequestBody ReportMessageDto reportMessageDto) {
         jmsProducer.sendMessage(reportMessageDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -11,7 +11,6 @@ import java.util.Random;
 @RequiredArgsConstructor
 @Component
 public class RandomProductFactoryImpl implements RandomProductFactory {
-
     private final RetailerRepository retailerRepository;
 
     @Override
