@@ -1,4 +1,4 @@
-package com.example.projectmanager.repository.schedule;
+package com.example.projectmanager.service.schedule;
 
 import com.example.projectmanager.service.ProductService;
 import lombok.RequiredArgsConstructor;

@@ -28,7 +28,7 @@ public class Retailer {
     @Column(name = "retailer_id", unique = true)
     private Long id;
     @Column(name = "name")
-    private String name;
+    private String name;//TODO should use enum RetailerName
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

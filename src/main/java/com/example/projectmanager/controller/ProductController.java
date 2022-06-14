@@ -70,14 +70,14 @@ public class ProductController {
         return new ResponseEntity<>(productService.create(product), HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "byRetNameAndStockLevelAndStartDateAndEndDate")
+    @GetMapping(path = "findByStockLevelGreaterThanEqualAndRetNameAndDateBetweenCreatedAtDates")
     public ResponseEntity<List<ProductDto>> getParams(
             String retailerName,
-            Long stockLevel,
+            Long minStockLevel,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate
     ) {
         return new ResponseEntity<>(
-                productService.findByParams(stockLevel, retailerName, startDate, endDate), HttpStatus.OK);
+                productService.findByParams(minStockLevel, retailerName, startDate, endDate), HttpStatus.OK);
     }
 }

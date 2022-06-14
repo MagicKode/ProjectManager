@@ -108,11 +108,10 @@ public class ProductServiceImpl implements ProductService {
             LocalDateTime startDate,
             LocalDateTime endDate
     ) {
-        List<Product> products = productRepository.findByStockLevelGreaterThanEqualAndRetailers_NameAndCreatedAtBetween(
-                stockLevel, retailerName, startDate, endDate
-        );
         return productMapper.toListProductDto(
-                products
+                productRepository.findByStockLevelGreaterThanEqualAndRetailers_NameAndCreatedAtBetween(
+                        stockLevel, retailerName, startDate, endDate
+                )
         );
     }
 }

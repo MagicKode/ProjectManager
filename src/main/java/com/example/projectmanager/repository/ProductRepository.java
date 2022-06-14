@@ -22,7 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @EntityGraph(attributePaths = {"retailers"})
     List<Product> findByStockLevelGreaterThanEqualAndRetailers_NameAndCreatedAtBetween(
-            @Param("stockLevel") Long stockLevel,
+            @Param("stockLevel") Long minStockLevel,
             @Param("retailerName") String retailerName,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate

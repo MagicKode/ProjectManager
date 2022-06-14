@@ -14,9 +14,10 @@ public interface ProductMapper {
     ProductDto toProductDto(Product product);
     List<ProductDto> toListProductDto(List<Product> products);
 
-    @Named("toListProductDtoWithoutRetailers")
+    @Named("toProductDtoWithoutRetailers")
     @Mapping(target = "retailers", ignore = true)
     ProductDto toProductDtoWithoutRetailers(Product product);
-    @IterableMapping(qualifiedByName = "toListProductDtoWithoutRetailers")
+
+    @IterableMapping(qualifiedByName = "toProductDtoWithoutRetailers")
     List<ProductDto> toListProductDtoWithoutRetailers(List<Product> products);
 }
