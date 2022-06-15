@@ -30,5 +30,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "OR description " +
             "ILIKE :keyword",
             nativeQuery = true)
-    List<Product> findProductsByKeyWord(@Param("keyword") String keyword);
+    List<Product> findByKeyWord(@Param("keyword") String keyword);
 }

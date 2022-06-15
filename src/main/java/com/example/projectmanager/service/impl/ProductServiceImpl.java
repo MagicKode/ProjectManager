@@ -1,5 +1,6 @@
 package com.example.projectmanager.service.impl;
 
+import com.example.projectmanager.exception.NotFoundException;
 import com.example.projectmanager.mapper.ProductMapper;
 import com.example.projectmanager.model.dto.ProductDto;
 import com.example.projectmanager.model.entity.Product;
@@ -49,28 +50,28 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findByKeyWord(String keyword) {
-        List<Product> findByKeyWord = productRepository.findProductsByKeyWord("%" + keyword + "%");
-        return productMapper.toListProductDto(findByKeyWord);
+        List<Product> products = productRepository.findByKeyWord("%" + keyword + "%");
+        return productMapper.toListProductDto(products);
     }
 
     @Override
-    public List<ProductDto> findAllProducts() {
-        List<Product> Products = productRepository.findAll();
+    public List<ProductDto> findAll() {
+        List<Product> products = productRepository.findAll();
         log.info("Found all products");
-        return productMapper.toListProductDto(Products);
+        return productMapper.toListProductDto(products);
     }
 
     @Override
-    public ProductDto getById(Long id) {
-        Product findProductById = productRepository.findById(id).orElse(null);
+    public ProductDto findById(Long id) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("No product found with such id = " + id));
         log.info("Found product with id = {}", id);
-        return productMapper.toProductDto(findProductById);
+        return productMapper.toProductDto(product);
     }
 
     @Override
     @Transactional
     public ProductDto update(Product product) {
-        Product productFromDb = productRepository.getById(product.getId());
+        Product productFromDb = productRepository.findById(product.getId()).orElseThrow(() -> new NotFoundException("No product updated with such id = " + product.getId()));
         productFromDb.setTitle(product.getTitle());
         productFromDb.setDescription(product.getDescription());
         productFromDb.setStockLevel(product.getStockLevel());
@@ -79,8 +80,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void deleteProductById(Long id) {
-        Product product = productRepository.getById(id);
+    public void deleteById(Long id) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new NotFoundException("No product deleted with such id = " + id ));
         product.getRetailers()
                 .forEach(retailer -> retailer.getProducts().removeIf(p -> p.getId().equals(product.getId())));
         productRepository.delete(product);
@@ -89,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Product create(Product product) {
-        return productRepository.save(product);
+    public ProductDto create(Product product) {
+        return productMapper.toProductDto(productRepository.save(product));
     }
 }
