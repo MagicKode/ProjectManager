@@ -1,11 +1,14 @@
 package com.example.projectmanager.model.entity;
 
+import com.example.projectmanager.model.entity.enums.RetailerName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,7 +31,8 @@ public class Retailer {
     @Column(name = "retailer_id", unique = true)
     private Long id;
     @Column(name = "name")
-    private String name;//TODO should use enum RetailerName
+    @Enumerated(EnumType.STRING)
+    private RetailerName name;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

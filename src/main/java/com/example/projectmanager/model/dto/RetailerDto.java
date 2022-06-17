@@ -1,5 +1,6 @@
 package com.example.projectmanager.model.dto;
 
+import com.example.projectmanager.model.entity.enums.RetailerName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,5 +10,5 @@ import lombok.Setter;
 @Setter
 public class RetailerDto {
     private Long id;
-    private String name;
+    private RetailerName name;
 }

@@ -1,11 +1,11 @@
 package com.example.projectmanager.service.impl;
 
+import com.example.projectmanager.model.entity.enums.RetailerName;
 import com.example.projectmanager.service.ProductService;
 import com.example.projectmanager.exception.NotFoundException;
 import com.example.projectmanager.mapper.ProductMapper;
 import com.example.projectmanager.model.dto.ProductDto;
 import com.example.projectmanager.model.entity.Product;
-import com.example.projectmanager.model.entity.enums.RetailerName;
 import com.example.projectmanager.factory.RandomProductFactory;
 import com.example.projectmanager.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static com.example.projectmanager.model.entity.enums.RetailerName.RET_A;
+import static com.example.projectmanager.model.entity.enums.RetailerName.RET_B;
 
 @Service
 @RequiredArgsConstructor
@@ -41,11 +44,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void incrementStockLevelByRetailerName(String name) {
-        if (RetailerName.RET_A.name().equals(name)) {
-            productRepository.incrementStockLevel(5, name);
-        } else if (RetailerName.RET_B.name().equals(name)) {
-            productRepository.incrementStockLevel(8, name);
+    public void incrementStockLevelByRetailerName(RetailerName name) {
+        if (RET_A.equals(name)) {
+            productRepository.incrementStockLevel(5L, name);
+        } else if (RET_B.equals(name)) {
+            productRepository.incrementStockLevel(8L, name);
         }
     }
 
@@ -103,14 +106,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findByParams(
-            Long stockLevel,
-            String retailerName,
+            Long minStockLevel,
+            RetailerName retailerName,
             LocalDateTime startDate,
             LocalDateTime endDate
     ) {
         return productMapper.toListProductDto(
                 productRepository.findByStockLevelGreaterThanEqualAndRetailers_NameAndCreatedAtBetween(
-                        stockLevel, retailerName, startDate, endDate
+                        minStockLevel, retailerName, startDate, endDate
                 )
         );
     }

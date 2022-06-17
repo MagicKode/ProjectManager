@@ -14,8 +14,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +45,6 @@ class ProductServiceImplTest {
     void shouldInsertRandomProducts() {
         //when
         testSubject.insertRandomProducts(4);
-
         //then
         verify(productRepository, times(1)).saveAll(Mockito.anyList());
         verify(randomProductFactory, times(4)).createRandomProduct();
@@ -49,25 +53,21 @@ class ProductServiceImplTest {
     @Test
     void shouldIncrementStockLevelByRetailerNameA() {
         //given
-        String name = RetailerName.RET_A.name();
-
+        RetailerName name = RetailerName.RET_A;
         //when
         testSubject.incrementStockLevelByRetailerName(name);
-
         //then
-        verify(productRepository, times(1)).incrementStockLevel(5, name);
+        verify(productRepository, times(1)).incrementStockLevel(5L, name);
     }
 
     @Test
     void shouldIncrementStockLevelByRetailerNameB() {
         //given
-        String name = RetailerName.RET_B.name();
-
+        RetailerName name = RetailerName.RET_B;
         //when
         testSubject.incrementStockLevelByRetailerName(name);
-
         //then
-        verify(productRepository, times(1)).incrementStockLevel(8, name);
+        verify(productRepository, times(1)).incrementStockLevel(8L, name);
     }
 
     @Test
@@ -84,18 +84,15 @@ class ProductServiceImplTest {
         String keyword = "title";
         String modKeyword = "%" + keyword + "%";
         when(productRepository.findByKeyWord(modKeyword)).thenReturn(products);
-        when(productMapper.toListProductDto(products)).thenReturn(productsDto);
-
+        when(productMapper.toListProductDtoWithoutRetailers(products)).thenReturn(productsDto);
         //when
         List<ProductDto> result = testSubject.findByKeyWord(keyword);
-
         //then
         assertEquals(1, result.size());
         assertEquals(productsDto, result);
         verify(productRepository, times(1)).findByKeyWord(modKeyword);
-        verify(productMapper, times(1)).toListProductDto(products);
+        verify(productMapper, times(1)).toListProductDtoWithoutRetailers(products);
     }
-
 
     @Test
     void shouldFindById() {
@@ -105,15 +102,13 @@ class ProductServiceImplTest {
         ProductDto productDto = new ProductDto();
         productDto.setId(1L);
         when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
-        when(productMapper.toProductDto(product)).thenReturn(productDto);
-
+        when(productMapper.toProductDtoWithoutRetailers(product)).thenReturn(productDto);
         //when
         ProductDto result = testSubject.findById(product.getId());
-
         //then
         assertEquals(product.getId(), result.getId());
         verify(productRepository, times(1)).findById(product.getId());
-        verify(productMapper, times(1)).toProductDto(product);
+        verify(productMapper, times(1)).toProductDtoWithoutRetailers(product);
     }
 
     @Test
@@ -121,7 +116,6 @@ class ProductServiceImplTest {
         //given
         Long id = 1L;
         String errorMessage = "No product found with such id = " + id;
-
         //when
         NotFoundException result = Assertions
                 .assertThrows(NotFoundException.class, () -> testSubject.findById(id));
@@ -142,11 +136,9 @@ class ProductServiceImplTest {
         productDto.setTitle(product.getTitle());
         when(productRepository.findById(product.getId())).thenReturn(Optional.of(productFromDB));
         when(productRepository.save(productFromDB)).thenReturn(productFromDB);
-        when(productMapper.toProductDto(productFromDB)).thenReturn(productDto);
-
+        when(productMapper.toProductDtoWithoutRetailers(productFromDB)).thenReturn(productDto);
         //when
         ProductDto result = testSubject.update(product);
-
         //then
         assertEquals(product.getTitle(), result.getTitle());
         verify(productRepository, times(1)).findById(product.getId());
@@ -160,7 +152,6 @@ class ProductServiceImplTest {
         Long id = 1L;
         product.setId(id);
         String errorMessage = "No product updated with such id = " + id;
-
         //when
         NotFoundException result = Assertions
                 .assertThrows(NotFoundException.class, () -> testSubject.update(product));
@@ -176,10 +167,8 @@ class ProductServiceImplTest {
         Product product = new Product();
         product.setId(id);
         when(productRepository.findById(id)).thenReturn(Optional.of(product));
-
         //when
         testSubject.deleteById(id);
-
         //then
         verify(productRepository, times(1)).findById(id);
         verify(productRepository, times(1)).delete(product);
@@ -190,11 +179,9 @@ class ProductServiceImplTest {
         //given
         Long id = 1L;
         String errorMessage = "No product deleted with such id = " + id;
-
         //when
         NotFoundException result = Assertions.assertThrows(
                 NotFoundException.class, () -> testSubject.deleteById(id));
-
         //then
         Assertions.assertEquals(errorMessage, result.getMessage());
         verify(productRepository, times(1)).findById(id);
@@ -204,11 +191,61 @@ class ProductServiceImplTest {
     void shouldCreate() {
         //given
         Product product = new Product();
-
         //when
         testSubject.create(product);
-
         //then
         verify(productRepository, times(1)).save(product);
+    }
+
+    @Test
+    void shouldFindPageable() {
+        //given
+        List<Product> products = Arrays.asList(new Product(), new Product());
+        List<ProductDto> productDtos = Arrays.asList(new ProductDto(), new ProductDto());
+        Pageable pageable = Pageable.ofSize(productDtos.size());
+        Page<Product> page = new PageImpl<>(products);
+        when(productRepository.findAll(pageable)).thenReturn(page);
+        when(productMapper.toListProductDtoWithoutRetailers(products)).thenReturn(productDtos);
+        //when
+        List<ProductDto> result = testSubject.findPageable(pageable);
+        //then
+        assertEquals(productDtos, result);
+        verify(productRepository, times(1)).findAll(pageable);
+        verify(productMapper, times(1)).toListProductDtoWithoutRetailers(products);
+    }
+
+    @Test
+    void shouldFindByParams() {
+        //given
+        Product product = new Product();
+        List<Product> products = new ArrayList<>();
+        products.add(product);
+        Long minStockLevel = 1L;
+        RetailerName retailerName = RetailerName.RET_A;
+        LocalDateTime date = LocalDateTime.now();
+        ProductDto productDto = new ProductDto();
+        List<ProductDto> productDtos = new ArrayList<>();
+        productDtos.add(productDto);
+        when(productRepository.findByStockLevelGreaterThanEqualAndRetailers_NameAndCreatedAtBetween(
+                        minStockLevel,
+                        retailerName,
+                        date,
+                        date
+                )
+        ).thenReturn(products);
+        when(productMapper.toListProductDto(products)).thenReturn(productDtos);
+        //when
+        List<ProductDto> result = testSubject.findByParams(minStockLevel, retailerName, date, date);
+        //then
+        assertEquals(1, result.size());
+        assertEquals(productDtos, result);
+        verify(productRepository, times(1)).
+                findByStockLevelGreaterThanEqualAndRetailers_NameAndCreatedAtBetween(
+                        minStockLevel,
+                        retailerName,
+                        date,
+                        date
+                );
+        verify(productMapper, times(1)).toListProductDto(products);
     }
 }

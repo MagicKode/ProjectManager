@@ -2,6 +2,7 @@ package com.example.projectmanager.controller;
 
 import com.example.projectmanager.model.dto.ProductDto;
 import com.example.projectmanager.model.entity.Product;
+import com.example.projectmanager.model.entity.enums.RetailerName;
 import com.example.projectmanager.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +35,7 @@ public class ProductController {
     }
 
     @PostMapping(path = "increment")
-    public ResponseEntity<Void> incrementStockLevelByRetailer(@RequestParam String name) {
+    public ResponseEntity<Void> incrementStockLevelByRetailer(@RequestParam RetailerName name) {
         productService.incrementStockLevelByRetailerName(name);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -72,7 +73,7 @@ public class ProductController {
 
     @GetMapping(path = "findByStockLevelGreaterThanEqualAndRetNameAndDateBetweenCreatedAtDates")
     public ResponseEntity<List<ProductDto>> getParams(
-            String retailerName,
+            RetailerName retailerName,
             Long minStockLevel,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate
