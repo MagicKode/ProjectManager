@@ -130,7 +130,6 @@ class ProductServiceImplTest {
         Product productFromDB = new Product();
         productFromDB.setId(1L);
         productFromDB.setTitle("Title");
-
         Product product = new Product();
         ProductDto productDto = new ProductDto();
         productDto.setTitle(product.getTitle());

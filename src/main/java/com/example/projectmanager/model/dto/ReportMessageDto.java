@@ -1,5 +1,6 @@
 package com.example.projectmanager.model.dto;
 
+import com.example.projectmanager.model.entity.enums.TypeReport;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,4 +17,5 @@ public class ReportMessageDto {
     private LocalDateTime endDate;
     private Long minStockLevel;
     private RetailerDto retailer;
+    private TypeReport type;
 }

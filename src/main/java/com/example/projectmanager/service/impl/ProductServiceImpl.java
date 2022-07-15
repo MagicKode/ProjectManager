@@ -31,6 +31,7 @@ public class ProductServiceImpl implements ProductService {
     private final RandomProductFactory randomProductFactory;
     private final ProductMapper productMapper;
 
+
     @Override
     @Transactional
     public void insertRandomProducts(Integer quantity) {
@@ -115,6 +116,19 @@ public class ProductServiceImpl implements ProductService {
                 productRepository.findByStockLevelGreaterThanEqualAndRetailers_NameAndCreatedAtBetween(
                         minStockLevel, retailerName, startDate, endDate
                 )
+        );
+    }
+
+    @Override
+    public Long getQuantityOfProducts(
+            RetailerName retailerName,
+            LocalDateTime startDate,
+            LocalDateTime endDate
+    ) {
+        return productRepository.getQuantityOfProductByRetailerNameAndCreatedAtBetween(
+                retailerName,
+                startDate,
+                endDate
         );
     }
 }

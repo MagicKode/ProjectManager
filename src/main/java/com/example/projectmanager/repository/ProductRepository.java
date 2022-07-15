@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     @Modifying
-    @Query(value ="UPDATE Product p " +
+    @Query(value = "UPDATE Product p " +
             "SET p.stockLevel = p.stockLevel + :amount " +
             "WHERE (SELECT r FROM Retailer r WHERE r.name = :name) " +
             "member p.retailers"
@@ -27,9 +27,22 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @EntityGraph(attributePaths = {"retailers"})
     List<Product> findByStockLevelGreaterThanEqualAndRetailers_NameAndCreatedAtBetween(
-            @Param("stockLevel") Long minStockLevel,
+            @Param("minStockLevel") Long minStockLevel,
             @Param("retailerName") RetailerName retailerName,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate
+    );
+
+    @Query("SELECT SUM (p.stockLevel) " +
+            "FROM Product p " +
+            "INNER JOIN p.retailers r " +
+            "WHERE r.name = :retailerName " +
+            "AND p.createdAt " +
+            "BETWEEN :startDate " +
+            "AND :endDate")
+    Long getQuantityOfProductByRetailerNameAndCreatedAtBetween(
+            RetailerName retailerName,
+            LocalDateTime startDate,
+            LocalDateTime endDate
     );
 }

@@ -25,4 +25,6 @@ public interface ProductService {
     ProductDto findById(Long id);
     ProductDto update(Product product);
     ProductDto create(Product product);
+
+    Long getQuantityOfProducts(RetailerName retailerName, LocalDateTime startDate, LocalDateTime endDate);
 }

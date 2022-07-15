@@ -81,4 +81,14 @@ public class ProductController {
         return new ResponseEntity<>(
                 productService.findByParams(minStockLevel, retailerName, startDate, endDate), HttpStatus.OK);
     }
+
+    @GetMapping(path = "getQuantityOfProductByRetNameAndDateBetweenCreatedAtDates")
+    public ResponseEntity<Long> getQuantity(
+            RetailerName retailerName,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate
+    ) {
+        return new ResponseEntity<>(
+                productService.getQuantityOfProducts(retailerName, startDate, endDate), HttpStatus.OK);
+    }
 }
