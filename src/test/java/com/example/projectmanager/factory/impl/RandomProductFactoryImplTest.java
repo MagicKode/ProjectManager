@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static com.example.projectmanager.model.entity.enums.RetailerName.RET_A;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -23,8 +24,7 @@ class RandomProductFactoryImplTest {
 
     @InjectMocks
     private RandomProductFactoryImpl testSubject;
-
-    private final String name = RetailerName.RET_A.name();
+    private final RetailerName name = RET_A;
 
     @Test
     void shouldCreateRandomProduct() {
@@ -32,10 +32,8 @@ class RandomProductFactoryImplTest {
         Retailer retailer = new Retailer();
         retailer.setName(name);
         when(retailerRepository.findByName(name)).thenReturn(retailer);
-
         //when
         Product result = testSubject.createRandomProduct();
-
         //then
         assertNotNull(result);
         verify(retailerRepository, times(1)).findByName(name);

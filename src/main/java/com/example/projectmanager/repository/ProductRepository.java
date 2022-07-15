@@ -1,34 +1,48 @@
 package com.example.projectmanager.repository;
 
 import com.example.projectmanager.model.entity.Product;
+import com.example.projectmanager.model.entity.enums.RetailerName;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-
     @Modifying
-    @Query(value = "" +
-            "UPDATE product " +
-            "SET stock_level = stock_level + :amount " +
-            "from retailer_product " +
-            "inner join retailer " +
-            "ON retailer.retailer_id = retailer_product.id_retailer " +
-            "WHERE product.product_id = retailer_product.id_product AND retailer.name = :name",
-            nativeQuery = true)
-    void incrementStockLevel(Integer amount, String name);
+    @Query(value = "UPDATE Product p " +
+            "SET p.stockLevel = p.stockLevel + :amount " +
+            "WHERE (SELECT r FROM Retailer r WHERE r.name = :name) " +
+            "member p.retailers"
+    )
+    void incrementStockLevel(Long amount, RetailerName name);
 
-    @Query(value = "" +
-            "SELECT * " +
-            "FROM product " +
-            "WHERE title " +
-            "ILIKE :keyword  " +
-            "OR description " +
-            "ILIKE :keyword",
-            nativeQuery = true)
+    @Query(value = "SELECT * FROM product WHERE title ILIKE :keyword OR description ILIKE :keyword", nativeQuery = true)
     List<Product> findByKeyWord(@Param("keyword") String keyword);
+
+    @EntityGraph(attributePaths = {"retailers"})
+    List<Product> findByStockLevelGreaterThanEqualAndRetailers_NameAndCreatedAtBetween(
+            @Param("minStockLevel") Long minStockLevel,
+            @Param("retailerName") RetailerName retailerName,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate
+    );
+
+    @Query("SELECT SUM (p.stockLevel) " +
+            "FROM Product p " +
+            "INNER JOIN p.retailers r " +
+            "WHERE r.name = :retailerName " +
+            "AND p.createdAt " +
+            "BETWEEN :startDate " +
+            "AND :endDate")
+    Long getQuantityOfProductByRetailerNameAndCreatedAtBetween(
+            RetailerName retailerName,
+            LocalDateTime startDate,
+            LocalDateTime endDate
+    );
 }

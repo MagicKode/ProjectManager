@@ -2,8 +2,11 @@ package com.example.projectmanager.controller;
 
 import com.example.projectmanager.model.dto.ProductDto;
 import com.example.projectmanager.model.entity.Product;
+import com.example.projectmanager.model.entity.enums.RetailerName;
 import com.example.projectmanager.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,13 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequestMapping("/products/")
 @RestController
 @RequiredArgsConstructor
 public class ProductController {
-
     private final ProductService productService;
 
     @PostMapping(path = "insert/{quantity}")
@@ -32,7 +35,7 @@ public class ProductController {
     }
 
     @PostMapping(path = "increment")
-    public ResponseEntity<Void> incrementStockLevelByRetailer(@RequestParam String name) {
+    public ResponseEntity<Void> incrementStockLevelByRetailer(@RequestParam RetailerName name) {
         productService.incrementStockLevelByRetailerName(name);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -42,13 +45,13 @@ public class ProductController {
         return new ResponseEntity<>(productService.findByKeyWord(keyword), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<ProductDto>> findAll() {
-        return new ResponseEntity<>(productService.findAll(), HttpStatus.OK);
+    @GetMapping(path = "pageable")
+    public ResponseEntity<List<ProductDto>> findPageable(Pageable pageable) {
+        return new ResponseEntity<>(productService.findPageable(pageable), HttpStatus.OK);
     }
 
     @GetMapping(path = "{id}")
-    public ResponseEntity<Object> findById(@PathVariable Long id) {
+    public ResponseEntity<ProductDto> findById(@PathVariable Long id) {
         return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
     }
 
@@ -66,5 +69,26 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<ProductDto> create(@RequestBody Product product) {
         return new ResponseEntity<>(productService.create(product), HttpStatus.CREATED);
+    }
+
+    @GetMapping(path = "findByStockLevelGreaterThanEqualAndRetNameAndDateBetweenCreatedAtDates")
+    public ResponseEntity<List<ProductDto>> getParams(
+            RetailerName retailerName,
+            Long minStockLevel,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate
+    ) {
+        return new ResponseEntity<>(
+                productService.findByParams(minStockLevel, retailerName, startDate, endDate), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "getQuantityOfProductByRetNameAndDateBetweenCreatedAtDates")
+    public ResponseEntity<Long> getQuantity(
+            RetailerName retailerName,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate
+    ) {
+        return new ResponseEntity<>(
+                productService.getQuantityOfProducts(retailerName, startDate, endDate), HttpStatus.OK);
     }
 }
